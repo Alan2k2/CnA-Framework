@@ -1,0 +1,14 @@
+{
+    "name": "cna/config",
+    "description": "CnA Configuration Repository",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "CnA\\\\Config\\\\": "src/"
+        }
+    }
+}

@@ -1,0 +1,51 @@
+{
+    "name": "cna/framework",
+    "description": "CnA Framework - Technical Architecture & Implementation",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "CnA\\Contracts\\": "packages/contracts/src/",
+            "CnA\\Core\\": "packages/core/src/",
+            "CnA\\Container\\": "packages/container/src/",
+            "CnA\\Config\\": "packages/config/src/",
+            "CnA\\Console\\": "packages/console/src/",
+            "CnA\\Http\\": "packages/http/src/",
+            "CnA\\Routing\\": "packages/routing/src/",
+            "CnA\\Middleware\\": "packages/middleware/src/",
+            "CnA\\Validation\\": "packages/validation/src/",
+            "CnA\\Database\\": "packages/database/src/",
+            "CnA\\QueryBuilder\\": "packages/query-builder/src/",
+            "CnA\\Orm\\": "packages/orm/src/",
+            "CnA\\Migrations\\": "packages/migrations/src/",
+            "CnA\\Auth\\": "packages/auth/src/",
+            "CnA\\Authorization\\": "packages/authorization/src/",
+            "CnA\\Security\\": "packages/security/src/",
+            "CnA\\Cache\\": "packages/cache/src/",
+            "CnA\\Queue\\": "packages/queue/src/",
+            "CnA\\Events\\": "packages/events/src/",
+            "CnA\\Scheduler\\": "packages/scheduler/src/",
+            "CnA\\Mail\\": "packages/mail/src/",
+            "CnA\\Notifications\\": "packages/notifications/src/",
+            "CnA\\Storage\\": "packages/storage/src/",
+            "CnA\\Ai\\": "packages/ai/src/",
+            "CnA\\Logging\\": "packages/logging/src/",
+            "CnA\\Monitoring\\": "packages/monitoring/src/",
+            "CnA\\Testing\\": "packages/testing/src/",
+            "App\\": "skeleton/app/"
+        },
+        "files": [
+            "packages/core/src/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/",
+            "SkeletonTests\\": "skeleton/tests/"
+        }
+    }
+}
+

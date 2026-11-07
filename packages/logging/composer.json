@@ -1,0 +1,14 @@
+{
+    "name": "cna/logging",
+    "description": "CnA Structured Logging & Secret Redaction",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "CnA\\\\Logging\\\\": "src/"
+        }
+    }
+}

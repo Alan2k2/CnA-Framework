@@ -1,0 +1,33 @@
+{
+    "framework": "CnA Framework",
+    "version": "1.0.0-dev",
+    "php_version": "8.4.5",
+    "os": "WINNT",
+    "timestamp": "2026-11-07T11:20:45+00:00",
+    "metrics": {
+        "container_resolution": {
+            "iterations": 50000,
+            "total_ms": 126.27,
+            "ops_per_second": 395962,
+            "avg_microseconds_per_op": 2.5255
+        },
+        "router_dispatch": {
+            "iterations": 50000,
+            "total_ms": 1286.47,
+            "ops_per_second": 38866,
+            "avg_microseconds_per_op": 25.7295
+        },
+        "query_builder_compilation": {
+            "iterations": 25000,
+            "total_ms": 529.95,
+            "ops_per_second": 47174,
+            "avg_microseconds_per_op": 21.198
+        },
+        "model_hydration": {
+            "iterations": 25000,
+            "total_ms": 38.63,
+            "ops_per_second": 647127,
+            "avg_microseconds_per_op": 1.5453
+        }
+    }
+}

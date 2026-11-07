@@ -1,0 +1,14 @@
+{
+    "name": "cna/orm",
+    "description": "CnA Active Record & Data Mapper ORM",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "CnA\\\\Orm\\\\": "src/"
+        }
+    }
+}

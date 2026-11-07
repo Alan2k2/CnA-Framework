@@ -1,0 +1,14 @@
+{
+    "name": "cna/ai",
+    "description": "CnA Provider-Independent AI Subsystem",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "CnA\\\\Ai\\\\": "src/"
+        }
+    }
+}

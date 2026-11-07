@@ -1,0 +1,14 @@
+{
+    "name": "cna/scheduler",
+    "description": "CnA Task Scheduler & Cron Runner",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "CnA\\\\Scheduler\\\\": "src/"
+        }
+    }
+}

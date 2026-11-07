@@ -1,0 +1,14 @@
+{
+    "name": "cna/middleware",
+    "description": "CnA Middleware Pipeline & Security Guards",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "CnA\\\\Middleware\\\\": "src/"
+        }
+    }
+}

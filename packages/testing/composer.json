@@ -1,0 +1,14 @@
+{
+    "name": "cna/testing",
+    "description": "CnA Testing Harness, Test Cases & Fakes",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "CnA\\\\Testing\\\\": "src/"
+        }
+    }
+}

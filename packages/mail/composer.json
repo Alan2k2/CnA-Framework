@@ -1,0 +1,14 @@
+{
+    "name": "cna/mail",
+    "description": "CnA Mail Subsystem & Fakes",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "CnA\\\\Mail\\\\": "src/"
+        }
+    }
+}

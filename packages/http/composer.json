@@ -1,0 +1,14 @@
+{
+    "name": "cna/http",
+    "description": "CnA HTTP Kernel & Request/Response",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "CnA\\\\Http\\\\": "src/"
+        }
+    }
+}

@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CnA Framework - Architecture, Features & Command Reference</title>
+    <link rel="icon" type="image/png" href="/images/cna-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/app.css">
+    <style>
+        :root {
+            --bg: #090d16;
+            --surface: #0f172a;
+            --surface-elevated: #1e293b;
+            --surface-hover: #334155;
+            --border: rgba(148, 163, 184, 0.12);
+            --border-highlight: rgba(56, 189, 248, 0.3);
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+            --primary: #38bdf8;
+            --primary-glow: rgba(56, 189, 248, 0.25);
+            --secondary: #818cf8;
+            --accent: #c084fc;
+            --success: #34d399;
+            --warning: #fbbf24;
+            --code-bg: #060911;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 10%, rgba(56, 189, 248, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 85% 25%, rgba(129, 140, 248, 0.08) 0%, transparent 45%);
+            background-attachment: fixed;
+        }
+
+        /* Top Navigation Bar */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(16px);
+            background: rgba(9, 13, 22, 0.85);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 800;
+            font-size: 1.25rem;
+            letter-spacing: -0.03em;
+        }
+        .nav-brand-img {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            box-shadow: 0 0 16px var(--primary-glow);
+            object-fit: cover;
+            display: block;
+        }
+        .hero-logo-container {
+            margin-bottom: 1.75rem;
+            display: flex;
+            justify-content: center;
+        }
+        .hero-logo-card {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 1.25rem 2.5rem;
+            box-shadow: 0 20px 50px rgba(56, 189, 248, 0.22), 0 0 0 1px rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+        }
+        .hero-logo-card:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 25px 65px rgba(56, 189, 248, 0.35);
+        }
+        .hero-brand-logo {
+            height: 120px;
+            max-width: 100%;
+            width: auto;
+            object-fit: contain;
+            display: block;
+        }
+        .nav-logo-badge {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #000;
+            font-weight: 900;
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            box-shadow: 0 0 16px var(--primary-glow);
+        }
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--primary); }
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .nav-developer-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: rgba(30, 41, 59, 0.75);
+            border: 1px solid var(--border);
+            border-radius: 9999px;
+            padding: 0.22rem 0.75rem 0.22rem 0.35rem;
+            font-size: 0.75rem;
+            transition: all 0.2s;
+        }
+        .nav-developer-badge:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 12px var(--primary-glow);
+        }
+        .dev-avatar {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #000;
+            font-weight: 800;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .dev-meta {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.15;
+            text-align: left;
+        }
+        .dev-name {
+            font-weight: 700;
+            color: #fff;
+            font-size: 0.78rem;
+        }
+        .dev-role {
+            color: var(--text-dim);
+            font-size: 0.65rem;
+        }
+        .dev-socials {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            margin-left: 0.35rem;
+            padding-left: 0.5rem;
+            border-left: 1px solid var(--border);
+        }
+        .dev-social-link {
+            color: var(--text-muted);
+            transition: color 0.2s, transform 0.15s;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+        .dev-social-link:hover {
+            color: var(--primary);
+            transform: scale(1.15);
+        }
+        .nav-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(52, 211, 153, 0.1);
+            border: 1px solid rgba(52, 211, 153, 0.25);
+            color: var(--success);
+            padding: 0.35rem 0.85rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+            box-shadow: 0 0 8px var(--success);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.15); }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem 6rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 3.5rem 1rem 4.5rem;
+            position: relative;
+        }
+        .pill-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(56, 189, 248, 0.08);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            color: var(--primary);
+            padding: 0.4rem 1.1rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.75rem;
+        }
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4.25rem);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.04em;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff 30%, var(--primary) 70%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p.lead {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 780px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.6;
+        }
+        .quick-start-bar {
+            display: inline-flex;
+            align-items: center;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 0.75rem 1.25rem;
+            border-radius: 12px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+            gap: 1.25rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95rem;
+        }
+        .quick-start-bar span.prompt { color: var(--text-dim); }
+        .quick-start-bar span.cmd { color: var(--primary); font-weight: 600; }
+        .copy-btn {
+            background: var(--surface-elevated);
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .copy-btn:hover {
+            color: #fff;
+            border-color: var(--primary);
+            background: rgba(56, 189, 248, 0.15);
+        }
+
+        /* Section Titles */
+        .section-header {
+            margin-top: 4.5rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+        .section-tag {
+            color: var(--primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .section-title {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: #fff;
+        }
+        .section-desc {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            margin-top: 0.5rem;
+            max-width: 750px;
+        }
+
+        /* Architecture Flow Diagram */
+        .flow-container {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        .flow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.25rem;
+            position: relative;
+        }
+        .flow-card {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            transition: all 0.25s ease;
+            position: relative;
+        }
+        .flow-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px var(--primary-glow);
+        }
+        .flow-step-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--surface-elevated);
+            color: var(--primary);
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+        .flow-card h4 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+        .flow-card p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+        .flow-card code {
+            display: block;
+            margin-top: 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--secondary);
+            background: rgba(129, 140, 248, 0.08);
+            padding: 0.3rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 1.5rem;
+        }
+        .feature-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.75rem;
+            transition: all 0.25s;
+        }
+        .feature-card:hover {
+            border-color: var(--border-highlight);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+        }
+        .feature-icon-wrapper {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: var(--surface-elevated);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.25rem;
+            border: 1px solid var(--border);
+        }
+        .feature-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+            color: #fff;
+        }
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            line-height: 1.6;
+        }
+        .feature-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1.2rem;
+        }
+        .feature-tag {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* CLI Commands Section */
+        .cli-container {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .cli-tabs {
+            display: flex;
+            gap: 0.5rem;
+            background: var(--code-bg);
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+            overflow-x: auto;
+        }
+        .cli-tab-btn {
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-muted);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .cli-tab-btn:hover { color: var(--text); }
+        .cli-tab-btn.active {
+            background: var(--surface-elevated);
+            color: var(--primary);
+            border-color: var(--border);
+        }
+        .cli-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        .cli-table th {
+            text-align: left;
+            padding: 1rem 1.5rem;
+            color: var(--text-dim);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background: rgba(255,255,255,0.02);
+            border-bottom: 1px solid var(--border);
+        }
+        .cli-table td {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+        .cli-table tr:last-child td { border-bottom: none; }
+        .cli-cmd {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--primary);
+            font-weight: 600;
+            background: rgba(56, 189, 248, 0.08);
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            display: inline-block;
+        }
+        .cli-desc { color: var(--text-muted); }
+
+        /* Helpers & Functions Section */
+        .helpers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.25rem;
+        }
+        .helper-card {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .helper-sig {
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+        .helper-desc {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+        .helper-card pre {
+            margin-top: 0.75rem;
+            background: rgba(255,255,255,0.03);
+            padding: 0.6rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            color: var(--primary);
+            overflow-x: auto;
+        }
+
+        /* Interactive Live API Playground */
+        .playground-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+        }
+        .endpoint-tester-row {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            flex-wrap: wrap;
+        }
+        .select-endpoint {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 0.65rem 1rem;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            flex-grow: 1;
+            cursor: pointer;
+        }
+        .send-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #000;
+            font-weight: 700;
+            border: none;
+            padding: 0.65rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.1s;
+        }
+        .send-btn:hover { opacity: 0.9; transform: scale(1.02); }
+        .response-terminal {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            min-height: 180px;
+            max-height: 350px;
+            overflow-y: auto;
+            color: #a5f3fc;
+            white-space: pre-wrap;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 6rem;
+            border-top: 1px solid var(--border);
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.875rem;
+        }
+        footer a { color: var(--primary); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+
+        .footer-creator-card {
+            max-width: 540px;
+            margin: 0 auto 2.5rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.75rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        .creator-badge-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: inline-block;
+            background: rgba(56, 189, 248, 0.08);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            padding: 0.3rem 0.75rem;
+            border-radius: 9999px;
+            font-weight: 600;
+        }
+        .creator-profile {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+        .creator-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #000;
+            font-weight: 800;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 18px var(--primary-glow);
+        }
+        .creator-info {
+            text-align: left;
+        }
+        .creator-name {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -0.02em;
+        }
+        .creator-title {
+            font-size: 0.875rem;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        .creator-links {
+            display: flex;
+            justify-content: center;
+            gap: 0.85rem;
+            flex-wrap: wrap;
+        }
+        .creator-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--surface-elevated);
+            border: 1px solid var(--border);
+            color: var(--text);
+            text-decoration: none;
+            padding: 0.55rem 1.15rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .creator-btn:hover {
+            border-color: var(--primary);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.25);
+        }
+        .creator-btn.linkedin-btn:hover {
+            border-color: #0a66c2;
+            box-shadow: 0 6px 20px rgba(10, 102, 194, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 1rem; }
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2.25rem; }
+            .features-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Header -->
+    <nav>
+        <a href="/" class="nav-brand">
+            <img src="/images/cna-icon.png" alt="CnA Framework Logo" class="nav-brand-img">
+            <span>CnA Framework</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#architecture">Architecture</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#commands">Commands</a></li>
+            <li><a href="#helpers">Functions</a></li>
+            <li><a href="#playground">Live API Tester</a></li>
+        </ul>
+        <div class="nav-right">
+            <!-- Framework Developer Badge -->
+            <div class="nav-developer-badge">
+                <div class="dev-avatar">AS</div>
+                <div class="dev-meta">
+                    <span class="dev-name">Alan Shaju</span>
+                    <span class="dev-role">Senior Software Engineer</span>
+                </div>
+                <div class="dev-socials">
+                    <a href="https://github.com/Alan2k2" target="_blank" rel="noopener noreferrer" title="GitHub: @Alan2k2" class="dev-social-link">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/alanshaju2k2/" target="_blank" rel="noopener noreferrer" title="LinkedIn: alanshaju2k2" class="dev-social-link">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="nav-status">
+                <div class="status-dot"></div>
+                <span>PHP <?= PHP_VERSION ?> &bull; Operational</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="pill-badge">
+                <span>Version 1.0 Baseline &bull; Production Ready</span>
+            </div>
+            <div class="hero-logo-container">
+                <div class="hero-logo-card">
+                    <img src="/images/cna-main-logo.png" alt="CnA Framework - Secure, Scalable, Intelligent" class="hero-brand-logo">
+                </div>
+            </div>
+            <h1>The Contract-Driven PHP Framework</h1>
+            <p class="lead">
+                Built for high-scale APIs, modern web apps, and background workers. Combining Laravel's beloved ergonomics with strict layered architecture, OWASP ASVS Level 2 security, zero-leak DI, and native N+1 prevention.
+            </p>
+
+            <div class="quick-start-bar">
+                <span class="prompt">$</span>
+                <span class="cmd" id="quickCmd">php cna serve</span>
+                <button class="copy-btn" onclick="copyQuickCmd()">Copy</button>
+            </div>
+        </section>
+
+        <!-- Architecture & Request Lifecycle -->
+        <section id="architecture">
+            <div class="section-header">
+                <span class="section-tag">Request Lifecycle</span>
+                <h2 class="section-title">How CnA Framework Works</h2>
+                <p class="section-desc">
+                    Controllers handle transport concerns only. Use cases live in Application Services that coordinate business rules and own explicit database transaction boundaries.
+                </p>
+            </div>
+
+            <div class="flow-container">
+                <div class="flow-grid">
+                    <div class="flow-card">
+                        <div class="flow-step-num">1</div>
+                        <h4>HTTP Request</h4>
+                        <p>Normalized headers, query parameters, cookies, JSON bodies, and correlation ID extraction.</p>
+                        <code>Request::createFromGlobals()</code>
+                    </div>
+
+                    <div class="flow-card">
+                        <div class="flow-step-num">2</div>
+                        <h4>Kernel & Middleware</h4>
+                        <p>Global onion pipeline enforcing HSTS, CSP, X-Frame-Options, rate limiting, and CSRF protection.</p>
+                        <code>Kernel->handle($request)</code>
+                    </div>
+
+                    <div class="flow-card">
+                        <div class="flow-step-num">3</div>
+                        <h4>Router & Regex Verbs</h4>
+                        <p>Fast URI parameter parsing, regex constraints, named route lookups, and group prefixes.</p>
+                        <code>$router->dispatch($request)</code>
+                    </div>
+
+                    <div class="flow-card">
+                        <div class="flow-step-num">4</div>
+                        <h4>Thin Controller</h4>
+                        <p>Parses & validates input with Validator, then delegates directly to an Application Service.</p>
+                        <code>OrderController->store()</code>
+                    </div>
+
+                    <div class="flow-card">
+                        <div class="flow-step-num">5</div>
+                        <h4>Application Service</h4>
+                        <p>Coordinates domain rules and owns explicit database transaction boundaries using savepoints.</p>
+                        <code>CreateOrderService->execute()</code>
+                    </div>
+
+                    <div class="flow-card">
+                        <div class="flow-step-num">6</div>
+                        <h4>Domain & Repository</h4>
+                        <p>Pure entity domain logic and repository interfaces decoupled from persistence drivers.</p>
+                        <code>OrderRepositoryInterface</code>
+                    </div>
+
+                    <div class="flow-card">
+                        <div class="flow-step-num">7</div>
+                        <h4>ORM & Query Builder</h4>
+                        <p>Active Record / Data Mapper hybrid models with mass assignment safeguards and O(1) eager loading.</p>
+                        <code>Order::with(['items'])->get()</code>
+                    </div>
+
+                    <div class="flow-card">
+                        <div class="flow-step-num">8</div>
+                        <h4>Database Engine</h4>
+                        <p>Multi-dialect PDO connection manager (SQLite, MySQL, PostgreSQL) with N+1 query observability.</p>
+                        <code>ConnectionManager::class</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Features -->
+        <section id="features">
+            <div class="section-header">
+                <span class="section-tag">Core Capabilities</span>
+                <h2 class="section-title">Built-In Engineering Features</h2>
+                <p class="section-desc">
+                    Engineered from first principles with zero external runtime baggage and uncompromising security defaults.
+                </p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">🛡️</div>
+                    <h3>OWASP ASVS Level 2 Security</h3>
+                    <p>AES-256-GCM authenticated encryption (AEAD), Argon2id password hashing, automated SSRF defenses blocking private/loopback/metadata IP ranges, and constant-time secret comparisons.</p>
+                    <div class="feature-tags">
+                        <span class="feature-tag">AEAD Encryption</span>
+                        <span class="feature-tag">SSRF Guard</span>
+                        <span class="feature-tag">Argon2id</span>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">🔍</div>
+                    <h3>First-Class N+1 Prevention</h3>
+                    <p>Strict-mode lazy loading prevention throws actionable diagnostics when relations are accessed dynamically without eager loading. Normalized SQL fingerprinting and per-route query budgets.</p>
+                    <div class="feature-tags">
+                        <span class="feature-tag">Strict Mode</span>
+                        <span class="feature-tag">Query Budgets</span>
+                        <span class="feature-tag">SQL Fingerprints</span>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">💉</div>
+                    <h3>Zero-Leak DI Container</h3>
+                    <p>Reflection-based autowiring, interface bindings, transient/singleton/scoped lifetimes, tagged service resolution, and circular dependency graph detection.</p>
+                    <div class="feature-tags">
+                        <span class="feature-tag">Autowiring</span>
+                        <span class="feature-tag">Circular Guard</span>
+                        <span class="feature-tag">Tagged Services</span>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">🤖</div>
+                    <h3>Pluggable AI Subsystem</h3>
+                    <p>Vendor-independent AI contracts with PromptGuard prompt injection defenses, secret redactors, tenant token usage accounting, permissioned tool registries with audit logs, and in-memory RAG.</p>
+                    <div class="feature-tags">
+                        <span class="feature-tag">PromptGuard</span>
+                        <span class="feature-tag">Token Quotas</span>
+                        <span class="feature-tag">Vector Store</span>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">⚡</div>
+                    <h3>Async Queues & Scheduler</h3>
+                    <p>Transactional queue worker daemon with exponential backoff, retry ceilings, and failed-job logging. Task scheduler with mutex lock-based overlap prevention.</p>
+                    <div class="feature-tags">
+                        <span class="feature-tag">Worker Daemon</span>
+                        <span class="feature-tag">Failed Jobs</span>
+                        <span class="feature-tag">Cron Mutex</span>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">📦</div>
+                    <h3>Strict Modular Monorepo</h3>
+                    <p>27 decoupled packages under the `CnA\` namespace. The contracts package never depends on concrete adapters, ensuring true dependency inversion.</p>
+                    <div class="feature-tags">
+                        <span class="feature-tag">27 Packages</span>
+                        <span class="feature-tag">Pure Contracts</span>
+                        <span class="feature-tag">Clean Architecture</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Complete CLI Reference -->
+        <section id="commands">
+            <div class="section-header">
+                <span class="section-tag">CLI Tooling</span>
+                <h2 class="section-title">The `cna` Command Suite</h2>
+                <p class="section-desc">
+                    Comprehensive CLI developer tools for serving, migrating, profiling, seeding, and scaffolding code.
+                </p>
+            </div>
+
+            <div class="cli-container">
+                <div class="cli-tabs">
+                    <button class="cli-tab-btn active" onclick="filterCommands('all', this)">All Commands</button>
+                    <button class="cli-tab-btn" onclick="filterCommands('server', this)">Server & Dev</button>
+                    <button class="cli-tab-btn" onclick="filterCommands('db', this)">Database & Migrations</button>
+                    <button class="cli-tab-btn" onclick="filterCommands('make', this)">Generators</button>
+                    <button class="cli-tab-btn" onclick="filterCommands('ops', this)">Ops & Security</button>
+                </div>
+
+                <table class="cli-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 32%;">Command</th>
+                            <th style="width: 50%;">Description</th>
+                            <th style="width: 18%; text-align: right;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cliTableBody">
+                        <tr data-cat="server">
+                            <td><span class="cli-cmd">php cna serve</span></td>
+                            <td class="cli-desc">Start the local development server (supports <code>--host</code> and <code>--port</code>)</td>
+                            <td style="text-align: right;"><button class="copy-btn" onclick="copyText('php cna serve')">Copy</button></td>
+                        </tr>
+                        <tr data-cat="ops">
+                            <td><span class="cli-cmd">php cna doctor</span></td>
+                            <td class="cli-desc">Run comprehensive diagnostic checks on PHP 8.4+, PDO drivers, and environment</td>
+                            <td style="text-align: right;"><button class="copy-btn" onclick="copyText('php cna doctor')">Copy</button></td>
+                        </tr>
+                        <tr data-cat="ops">
+                            <td><span class="cli-cmd">php cna security:check</span></td>
+                            <td class="cli-desc">Audit configuration against OWASP ASVS baseline security verification rules</td>
+                            <td style="text-align: right;"><button class="copy-btn" onclick="copyText('php cna security:check')">Copy</button></td>
+                        </tr>
+                        <tr data-cat="server">
+                            <td><span class="cli-cmd">php cna route:list</span></td>
+                            <td class="cli-desc">Display formatted table of all registered HTTP routes, actions, and middlewares</td>
+                            <td style="text-align: right;"><button class="copy-btn" onclick="copyText('php cna route:list')">Copy</button></td>
+                        </tr>
+                        <tr data-cat="db">
+                            <td><span class="cli-cmd">php cna db:status</span></td>
+                            <td class="cli-desc">Show status (Ran vs Pending) and batch of each database migration</td>
+                            <td style="text-align: right;"><button class="copy-btn" onclick="copyText('php cna db:status')">Copy</button></td>
+                        </tr>
+                        <tr data-cat="db">
+                            <td><span class="cli-cmd">php cna migrate</span></td>
+                            <td class="cli-desc">Execute all pending database migrations in transaction batches</td>
+                            <td style="text-align: right;"><button class="copy-btn" onclick="copyText('php cna migrate')">Copy</button></td>
+                        </tr>
+                        <tr data-cat="db">
+                            <td><span class="cli-cmd">php cna migrate:rollback</span></td>
+                            <td class="cli-desc">Rollback the last migration batch</td>
+                            <td style="text-align: right;"><button class="copy-btn" onclick="copyText('php cna migrate:rollback')">Copy</button></td>
+                        </tr>
+                        <tr data-cat="db">
+                            <td><span class="cli-cmd">php cna migrate:refresh</span></td>
+                            <td class="cli-desc">Rollback all database migrations and re-run them from scratch (supports <code>--seed</code>)</td>
+                            <td style="text-align: right;"><button class="copy-btn" onclick="copyText('php cna migrate:refresh')">Copy</button></td>
+                        </tr>
+                        <tr data-cat="db">
+                            <td><span class="cli-cmd">php cna db:seed</span></td>
+                            <td class="cli-desc">Seed the database with seed records (e.g. <code>DatabaseSeeder</code>)</td>
+                            <td style="text-align: right;"><button class="copy-btn" onclick="copyText('php cna db:seed')">Copy</button></td>
+                        </tr>
+                        <tr data-cat="db">
+                            <td><span class="cli-cmd">php cna db:profile</span></td>
+                            <td class="cli-desc">Inspect query execution counts, total latency, and detect N+1 query patterns</td>
+                            <td style="text-align: right;"><button class="copy-btn" onclick="copyText('php cna db:profile')">Copy</button></td>
+                        </tr>
+                        <tr data-cat="ops">
+                            <td><span class="cli-cmd">php cna test</span></td>
+                            <td class="cli-desc">Run the complete automated test suite (Unit, Feature, and Architecture tests)</td>
+                            <td style="text-align: right;"><button class="copy-btn" onclick="copyText('php cna test')">Copy</button></td>
+                        </tr>
+                        <tr data-cat="ops">
+                            <td><span class="cli-cmd">php cna key:generate</span></td>
+                            <td class="cli-desc">Generate and set the 256-bit AEAD application encryption key in .env</td>
+                            <td style="text-align: right;"><button class="copy-btn" onclick="copyText('php cna key:generate')">Copy</button></td>
+                        </tr>
+                        <tr data-cat="ops">
+                            <td><span class="cli-cmd">php cna queue:work</span></td>
+                            <td class="cli-desc">Start processing background jobs from the queue with automatic retry backoff</td>
+                            <td style="text-align: right;"><button class="copy-btn" onclick="copyText('php cna queue:work')">Copy</button></td>
+                        </tr>
+                        <tr data-cat="ops">
+                            <td><span class="cli-cmd">php cna queue:failed</span></td>
+                            <td class="cli-desc">List failed queue jobs with exception details and stack traces</td>
+                            <td style="text-align: right;"><button class="copy-btn" onclick="copyText('php cna queue:failed')">Copy</button></td>
+                        </tr>
+                        <tr data-cat="ops">
+                            <td><span class="cli-cmd">php cna schedule:run</span></td>
+                            <td class="cli-desc">Execute due scheduled cron events with distributed lock overlap prevention</td>
+                            <td style="text-align: right;"><button class="copy-btn" onclick="copyText('php cna schedule:run')">Copy</button></td>
+                        </tr>
+                        <tr data-cat="ops">
+                            <td><span class="cli-cmd">php cna ai:usage</span></td>
+                            <td class="cli-desc">Report AI token consumption, tenant quotas, and budget metrics</td>
+                            <td style="text-align: right;"><button class="copy-btn" onclick="copyText('php cna ai:usage')">Copy</button></td>
+                        </tr>
+                        <tr data-cat="make">
+                            <td><span class="cli-cmd">php cna make:controller &lt;Name&gt;</span></td>
+                            <td class="cli-desc">Scaffold a thin transport controller class in <code>app/Http/Controllers/</code></td>
+                            <td style="text-align: right;"><button class="copy-btn" onclick="copyText('php cna make:controller ')">Copy</button></td>
+                        </tr>
+                        <tr data-cat="make">
+                            <td><span class="cli-cmd">php cna make:service &lt;Name&gt;</span></td>
+                            <td class="cli-desc">Scaffold an application service use case with transaction management</td>
+                            <td style="text-align: right;"><button class="copy-btn" onclick="copyText('php cna make:service ')">Copy</button></td>
+                        </tr>
+                        <tr data-cat="make">
+                            <td><span class="cli-cmd">php cna make:repository &lt;Name&gt;</span></td>
+                            <td class="cli-desc">Scaffold domain repository interface & SQL infrastructure implementation</td>
+                            <td style="text-align: right;"><button class="copy-btn" onclick="copyText('php cna make:repository ')">Copy</button></td>
+                        </tr>
+                        <tr data-cat="make">
+                            <td><span class="cli-cmd">php cna make:model &lt;Name&gt;</span></td>
+                            <td class="cli-desc">Scaffold an ORM Model class with mass-assignment protection</td>
+                            <td style="text-align: right;"><button class="copy-btn" onclick="copyText('php cna make:model ')">Copy</button></td>
+                        </tr>
+                        <tr data-cat="make">
+                            <td><span class="cli-cmd">php cna make:migration &lt;name&gt;</span></td>
+                            <td class="cli-desc">Create a new schema blueprint migration file</td>
+                            <td style="text-align: right;"><button class="copy-btn" onclick="copyText('php cna make:migration ')">Copy</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Global Helpers & API Functions -->
+        <section id="helpers">
+            <div class="section-header">
+                <span class="section-tag">Developer Ergonomics</span>
+                <h2 class="section-title">Helper Functions & API Cheat Sheet</h2>
+                <p class="section-desc">
+                    Familiar, expressive functions that resolve from the DI container without exposing global mutable state.
+                </p>
+            </div>
+
+            <div class="helpers-grid">
+                <div class="helper-card">
+                    <div class="helper-sig">app(?string $abstract = null)</div>
+                    <div class="helper-desc">Resolve services from the dependency injection container.</div>
+                    <pre>$db = app(\CnA\Contracts\Database\ConnectionInterface::class);</pre>
+                </div>
+
+                <div class="helper-card">
+                    <div class="helper-sig">config(?string $key = null, mixed $default = null)</div>
+                    <div class="helper-desc">Get dot-notated typed configuration parameters.</div>
+                    <pre>$driver = config('database.default', 'sqlite');</pre>
+                </div>
+
+                <div class="helper-card">
+                    <div class="helper-sig">env(string $key, mixed $default = null)</div>
+                    <div class="helper-desc">Read environment variables with automatic type conversion.</div>
+                    <pre>$debug = env('APP_DEBUG', false);</pre>
+                </div>
+
+                <div class="helper-card">
+                    <div class="helper-sig">json(mixed $data = [], int $status = 200)</div>
+                    <div class="helper-desc">Return a JSON response with security headers.</div>
+                    <pre>return json(['success' => true, 'data' => $order]);</pre>
+                </div>
+
+                <div class="helper-card">
+                    <div class="helper-sig">view(string $view, array $data = [])</div>
+                    <div class="helper-desc">Render an HTML template with auto-escaping.</div>
+                    <pre>return view('welcome', ['title' => 'Dashboard']);</pre>
+                </div>
+
+                <div class="helper-card">
+                    <div class="helper-sig">route(string $name, array $params = [])</div>
+                    <div class="helper-desc">Generate a URL to a named route.</div>
+                    <pre>$url = route('orders.show', ['id' => 42]);</pre>
+                </div>
+
+                <div class="helper-card">
+                    <div class="helper-sig">abort(int $code, string $message = '')</div>
+                    <div class="helper-desc">Throw documented framework HTTP exceptions.</div>
+                    <pre>abort(404, 'Order was not found.');</pre>
+                </div>
+
+                <div class="helper-card">
+                    <div class="helper-sig">bcrypt(string $value, array $options = [])</div>
+                    <div class="helper-desc">Securely hash passwords using native algorithms.</div>
+                    <pre>$hash = bcrypt('my-secret-password');</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Live API Playground -->
+        <section id="playground">
+            <div class="section-header">
+                <span class="section-tag">Interactive Sandbox</span>
+                <h2 class="section-title">Live API Playground</h2>
+                <p class="section-desc">
+                    Test your running framework endpoints directly from this page using live fetch requests.
+                </p>
+            </div>
+
+            <div class="playground-card">
+                <div class="endpoint-tester-row">
+                    <select class="select-endpoint" id="endpointSelect">
+                        <option value="/api/v1/health">GET /api/v1/health — Diagnostic Health Check</option>
+                        <option value="/api/v1/orders">GET /api/v1/orders — Eager Loaded Orders</option>
+                        <option value="/api/v1/orders/1">GET /api/v1/orders/1 — Fetch Single Order</option>
+                    </select>
+                    <button class="send-btn" onclick="executeApiCall()">Send Request</button>
+                </div>
+
+                <div class="response-terminal" id="terminalOutput">// Click "Send Request" to test endpoint live...</div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <!-- Framework Developer Profile Card -->
+            <div class="footer-creator-card">
+                <div class="creator-badge-tag">Framework Creator & Lead Architect</div>
+                <div class="creator-profile">
+                    <div class="creator-avatar">AS</div>
+                    <div class="creator-info">
+                        <div class="creator-name">Alan Shaju</div>
+                        <div class="creator-title">Senior Software Engineer</div>
+                    </div>
+                </div>
+                <div class="creator-links">
+                    <a href="https://github.com/Alan2k2" target="_blank" rel="noopener noreferrer" class="creator-btn github-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                        <span>GitHub (@Alan2k2)</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/alanshaju2k2/" target="_blank" rel="noopener noreferrer" class="creator-btn linkedin-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                        <span>LinkedIn (alanshaju2k2)</span>
+                    </a>
+                </div>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                <img src="/images/cna-icon.png" alt="CnA Logo" style="width: 28px; height: 28px; border-radius: 6px; box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);">
+                <strong style="color: #fff; font-size: 1rem;">CnA Framework</strong>
+            </div>
+            <p>Version 1.0 Baseline &bull; PHP 8.4+ Architecture & Implementation</p>
+            <p style="margin-top: 0.5rem;">Open-source software designed & engineered by <strong>Alan Shaju</strong> &bull; Licensed under the <a href="/docs/adr/0001-pdo-database-foundation.md">MIT License</a>.</p>
+        </footer>
+
+    </div>
+
+    <!-- Interactive Scripts -->
+    <script>
+        function copyQuickCmd() {
+            const text = document.getElementById('quickCmd').innerText;
+            navigator.clipboard.writeText(text);
+            alert('Copied to clipboard: ' + text);
+        }
+
+        function copyText(text) {
+            navigator.clipboard.writeText(text);
+            alert('Copied: ' + text);
+        }
+
+        function filterCommands(cat, btn) {
+            document.querySelectorAll('.cli-tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const rows = document.querySelectorAll('#cliTableBody tr');
+            rows.forEach(row => {
+                if (cat === 'all' || row.getAttribute('data-cat') === cat) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        async function executeApiCall() {
+            const select = document.getElementById('endpointSelect');
+            const terminal = document.getElementById('terminalOutput');
+            const endpoint = select.value;
+
+            terminal.innerText = `// Sending GET ${endpoint} ...\n`;
+
+            try {
+                const start = performance.now();
+                const res = await fetch(endpoint, {
+                    headers: { 'Accept': 'application/json' }
+                });
+                const elapsed = (performance.now() - start).toFixed(1);
+                const data = await res.json();
+
+                terminal.innerText = `// HTTP Status: ${res.status} ${res.statusText} (${elapsed}ms)\n// Headers: Content-Type: ${res.headers.get('content-type')}\n\n` + JSON.stringify(data, null, 2);
+            } catch (err) {
+                terminal.innerText = `// Error: ${err.message}`;
+            }
+        }
+    </script>
+    <script src="/js/app.js"></script>
+</body>
+</html>

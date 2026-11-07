@@ -1,0 +1,14 @@
+{
+    "name": "cna/database",
+    "description": "CnA PDO Database Connection & Transaction Manager",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "CnA\\\\Database\\\\": "src/"
+        }
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "name": "cna/cache",
+    "description": "CnA Cache Subsystem & Atomic Locks",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "CnA\\\\Cache\\\\": "src/"
+        }
+    }
+}

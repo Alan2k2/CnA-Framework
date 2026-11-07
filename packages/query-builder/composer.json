@@ -1,0 +1,14 @@
+{
+    "name": "cna/query-builder",
+    "description": "CnA Fluent Query Builder & Dialects",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "CnA\\\\QueryBuilder\\\\": "src/"
+        }
+    }
+}

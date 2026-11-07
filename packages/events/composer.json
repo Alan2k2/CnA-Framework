@@ -1,0 +1,14 @@
+{
+    "name": "cna/events",
+    "description": "CnA Event Dispatcher",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "CnA\\\\Events\\\\": "src/"
+        }
+    }
+}

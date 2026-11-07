@@ -1,0 +1,14 @@
+{
+    "name": "cna/console",
+    "description": "CnA CLI & Console Bus",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "CnA\\\\Console\\\\": "src/"
+        }
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "name": "cna/storage",
+    "description": "CnA Filesystem & Object Storage Abstraction",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "CnA\\\\Storage\\\\": "src/"
+        }
+    }
+}

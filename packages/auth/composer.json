@@ -1,0 +1,14 @@
+{
+    "name": "cna/auth",
+    "description": "CnA Authentication & Guard Subsystem",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "CnA\\\\Auth\\\\": "src/"
+        }
+    }
+}

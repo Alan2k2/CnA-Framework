@@ -1,0 +1,103 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+// Locate autoloader
+if (file_exists(__DIR__ . '/vendor/autoload.php')) {
+    require_once __DIR__ . '/vendor/autoload.php';
+} else {
+    // Zero-dependency autoloader
+    spl_autoload_register(function ($class) {
+        $prefixMap = [
+            'CnA\\Contracts\\' => __DIR__ . '/packages/contracts/src/',
+            'CnA\\Core\\' => __DIR__ . '/packages/core/src/',
+            'CnA\\Container\\' => __DIR__ . '/packages/container/src/',
+            'CnA\\Config\\' => __DIR__ . '/packages/config/src/',
+            'CnA\\Console\\' => __DIR__ . '/packages/console/src/',
+            'CnA\\Http\\' => __DIR__ . '/packages/http/src/',
+            'CnA\\Routing\\' => __DIR__ . '/packages/routing/src/',
+            'CnA\\Middleware\\' => __DIR__ . '/packages/middleware/src/',
+            'CnA\\Validation\\' => __DIR__ . '/packages/validation/src/',
+            'CnA\\Database\\' => __DIR__ . '/packages/database/src/',
+            'CnA\\QueryBuilder\\' => __DIR__ . '/packages/query-builder/src/',
+            'CnA\\Orm\\' => __DIR__ . '/packages/orm/src/',
+            'CnA\\Migrations\\' => __DIR__ . '/packages/migrations/src/',
+            'CnA\\Auth\\' => __DIR__ . '/packages/auth/src/',
+            'CnA\\Authorization\\' => __DIR__ . '/packages/authorization/src/',
+            'CnA\\Security\\' => __DIR__ . '/packages/security/src/',
+            'CnA\\Cache\\' => __DIR__ . '/packages/cache/src/',
+            'CnA\\Queue\\' => __DIR__ . '/packages/queue/src/',
+            'CnA\\Events\\' => __DIR__ . '/packages/events/src/',
+            'CnA\\Scheduler\\' => __DIR__ . '/packages/scheduler/src/',
+            'CnA\\Mail\\' => __DIR__ . '/packages/mail/src/',
+            'CnA\\Notifications\\' => __DIR__ . '/packages/notifications/src/',
+            'CnA\\Storage\\' => __DIR__ . '/packages/storage/src/',
+            'CnA\\Ai\\' => __DIR__ . '/packages/ai/src/',
+            'CnA\\Logging\\' => __DIR__ . '/packages/logging/src/',
+            'CnA\\Monitoring\\' => __DIR__ . '/packages/monitoring/src/',
+            'CnA\\Testing\\' => __DIR__ . '/packages/testing/src/',
+            'App\\' => __DIR__ . '/skeleton/app/',
+        ];
+
+        foreach ($prefixMap as $prefix => $baseDir) {
+            $len = strlen($prefix);
+            if (strncmp($prefix, $class, $len) === 0) {
+                $relativeClass = substr($class, $len);
+                $file = $baseDir . str_replace('\\', '/', $relativeClass) . '.php';
+                if (file_exists($file)) {
+                    require_once $file;
+                    return;
+                }
+            }
+        }
+    });
+
+    require_once __DIR__ . '/packages/core/src/helpers.php';
+}
+
+// Bootstrap application
+$skeletonBootstrap = __DIR__ . '/skeleton/bootstrap/app.php';
+if (file_exists($skeletonBootstrap)) {
+    $app = require $skeletonBootstrap;
+} else {
+    $app = new \CnA\Core\Application(__DIR__);
+}
+
+$app->bootstrap();
+
+// Register Console
+$console = new \CnA\Console\Console($app);
+
+$console->register(new \CnA\Console\Commands\AboutCommand($app));
+$console->register(new \CnA\Console\Commands\DoctorCommand($app));
+$console->register(new \CnA\Console\Commands\ServeCommand($app));
+$console->register(new \CnA\Console\Commands\KeyGenerateCommand($app));
+$console->register(new \CnA\Console\Commands\RouteListCommand($app));
+$console->register(new \CnA\Console\Commands\DbStatusCommand($app));
+$console->register(new \CnA\Console\Commands\DbSeedCommand($app));
+$console->register(new \CnA\Console\Commands\MigrateCommand($app));
+$console->register(new \CnA\Console\Commands\MigrateRollbackCommand($app));
+$console->register(new \CnA\Console\Commands\MigrateRefreshCommand($app));
+$console->register(new \CnA\Console\Commands\CacheClearCommand($app));
+$console->register(new \CnA\Console\Commands\QueueWorkCommand($app));
+$console->register(new \CnA\Console\Commands\QueueFailedCommand($app));
+$console->register(new \CnA\Console\Commands\QueueRetryCommand($app));
+$console->register(new \CnA\Console\Commands\QueueFlushCommand($app));
+$console->register(new \CnA\Console\Commands\ScheduleRunCommand($app));
+$console->register(new \CnA\Console\Commands\SecurityCheckCommand($app));
+$console->register(new \CnA\Console\Commands\DbProfileCommand($app));
+$console->register(new \CnA\Console\Commands\AiUsageCommand($app));
+$console->register(new \CnA\Console\Commands\AiProvidersCommand($app));
+$console->register(new \CnA\Console\Commands\AiDiagnoseCommand($app));
+$console->register(new \CnA\Console\Commands\BenchmarkCommand($app));
+$console->register(new \CnA\Console\Commands\TestCommand($app));
+$console->register(new \CnA\Console\Commands\MakeControllerCommand($app));
+$console->register(new \CnA\Console\Commands\MakeServiceCommand($app));
+$console->register(new \CnA\Console\Commands\MakeRepositoryCommand($app));
+$console->register(new \CnA\Console\Commands\MakeModelCommand($app));
+$console->register(new \CnA\Console\Commands\MakeMigrationCommand($app));
+
+$status = $console->run($argv);
+exit($status);
+

@@ -1,0 +1,14 @@
+{
+    "name": "cna/monitoring",
+    "description": "CnA N+1 Detection, Profiling & Telemetry",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "CnA\\\\Monitoring\\\\": "src/"
+        }
+    }
+}

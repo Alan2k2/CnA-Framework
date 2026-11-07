@@ -1,0 +1,33 @@
+/vendor/
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Environment & Local Configuration
+.env
+.env.backup
+.env.production
+
+# Database & SQLite files
+*.sqlite
+*.sqlite3
+*.sqlite-journal
+*.db
+*.db-journal
+
+# Framework Storage & Logs
+/storage/logs/*.log
+/storage/framework/cache/*
+!/storage/framework/cache/.gitkeep
+!/storage/logs/.gitkeep
+
+# IDEs & OS files
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
+Thumbs.db

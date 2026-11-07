@@ -1,0 +1,14 @@
+{
+    "name": "cna/security",
+    "description": "CnA OWASP ASVS Security, AEAD Encryption & CSRF",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "CnA\\\\Security\\\\": "src/"
+        }
+    }
+}
