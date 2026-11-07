@@ -8,6 +8,7 @@
 </p>
 
 <p align="center">
+  <a href="https://alan2k2.github.io/CnA-Framework/"><img src="https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-38bdf8.svg?style=flat-square" alt="Live Demo"></a>
   <a href="https://github.com/Alan2k2/CnA-Framework/actions"><img src="https://img.shields.io/badge/CI-Passing-34d399.svg?style=flat-square" alt="CI Status"></a>
   <a href="https://www.php.net/"><img src="https://img.shields.io/badge/PHP-8.4%2B-818cf8.svg?style=flat-square" alt="PHP Version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-38bdf8.svg?style=flat-square" alt="License"></a>
@@ -29,7 +30,13 @@
 
 ## ⚡ Quick Start & Running the Welcome Interface
 
-Follow these simple steps to run the framework and open the interactive documentation and features interface:
+### 🌐 Live Online Demo (No Installation Required)
+You can directly assess the framework UI, features, commands, and interactive API sandbox online:
+👉 **[https://alan2k2.github.io/CnA-Framework/](https://alan2k2.github.io/CnA-Framework/)**
+
+---
+
+### Local Installation & Running:
 
 ### 1. Clone & Setup
 ```bash
