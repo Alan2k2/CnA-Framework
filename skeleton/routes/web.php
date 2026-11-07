@@ -8,7 +8,7 @@ use CnA\Contracts\Routing\RouterInterface;
 /** @var RouterInterface $router */
 
 $router->get('/', function (RequestInterface $request) {
-    if ($request->wantsJson()) {
+    if ($request->query('format') === 'json') {
         return json([
             'framework' => 'CnA Framework',
             'status' => 'operational',
