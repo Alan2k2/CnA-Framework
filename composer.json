@@ -89,8 +89,10 @@
         "platform": {
             "php": "8.4.27"
         },
-        "audit": {
-            "abandoned": "fail"
+        "policy": {
+            "abandoned": {
+                "audit": "fail"
+            }
         },
         "sort-packages": true
     },
