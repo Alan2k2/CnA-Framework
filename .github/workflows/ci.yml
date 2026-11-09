@@ -24,7 +24,14 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           extensions: pdo, pdo_sqlite, openssl, mbstring, json, intl, bcmath
+          ini-values: session.upload_progress.enabled=0
           coverage: none
+
+      - name: Prepare Environment File
+        run: cp .env.example .env
+
+      - name: Validate Composer Package
+        run: composer validate --strict
 
       - name: Verify Environment (Doctor)
         run: php cna doctor
