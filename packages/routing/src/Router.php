@@ -111,10 +111,17 @@ class Router implements RouterInterface
             $matchedRoute->getMiddleware()
         );
 
-        return (new Pipeline($this->container))
+        $response = (new Pipeline($this->container))
             ->send($request)
             ->through($middlewareClasses)
             ->then(fn($req) => $this->runRoute($matchedRoute, $req));
+
+        // RFC 9110 §9.3.2: HEAD responses must be identical to GET headers but contain an empty body
+        if (strtoupper($method) === 'HEAD') {
+            $response = $response->withBody('');
+        }
+
+        return $response;
     }
 
     public function route(string $name, array $parameters = []): string

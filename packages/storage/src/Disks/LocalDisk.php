@@ -102,25 +102,39 @@ class LocalDisk implements StorageInterface
 
     protected function applyPathPrefix(string $path): string
     {
-        $normalized = str_replace('\\', '/', $path);
-        // Path traversal defense
-        if (str_contains($normalized, '..') || str_starts_with($normalized, '/')) {
-            $clean = [];
-            foreach (explode('/', $normalized) as $segment) {
-                if ($segment === '..' || $segment === '.' || $segment === '') {
-                    continue;
-                }
-                $clean[] = $segment;
-            }
-            $normalized = implode('/', $clean);
+        if (str_contains($path, "\0")) {
+            throw new SecurityException("Null byte detected in storage path.");
         }
 
-        $target = $this->root . '/' . ltrim($normalized, '/');
+        $normalized = str_replace('\\', '/', $path);
+        $clean = [];
+        foreach (explode('/', $normalized) as $segment) {
+            if ($segment === '' || $segment === '.') {
+                continue;
+            }
+            if ($segment === '..') {
+                throw new SecurityException("Directory traversal attempt detected in path [{$path}].");
+            }
+            $clean[] = $segment;
+        }
+
+        $cleanPath = implode('/', $clean);
+        $target = $this->root . ($cleanPath !== '' ? '/' . $cleanPath : '');
         $target = str_replace('\\', '/', $target);
 
-        // Verify it stays within root
-        if (!str_starts_with($target, $this->root)) {
-            throw new SecurityException("Directory traversal attack detected on path: {$path}");
+        // Prefix boundary check (must match root or root + '/')
+        if ($target !== $this->root && !str_starts_with($target, $this->root . '/')) {
+            throw new SecurityException("Directory traversal boundary violation on path: [{$path}]");
+        }
+
+        // Canonical realpath check if target exists
+        $real = realpath($target);
+        if ($real !== false) {
+            $realNorm = str_replace('\\', '/', $real);
+            $rootReal = str_replace('\\', '/', realpath($this->root) ?: $this->root);
+            if ($realNorm !== $rootReal && !str_starts_with($realNorm, $rootReal . '/')) {
+                throw new SecurityException("Symlink directory traversal detected on path: [{$path}]");
+            }
         }
 
         return $target;

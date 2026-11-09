@@ -97,6 +97,11 @@ class Application extends Container implements ApplicationInterface
             return;
         }
 
+        // Mitigate CVE-2026-115560 (Session upload progress memory corruption)
+        if (ini_get('session.upload_progress.enabled') === '1') {
+            @ini_set('session.upload_progress.enabled', '0');
+        }
+
         // Load configuration
         $config = Config::loadFromDirectory($this->configPath());
         $this->instance(Config::class, $config);

@@ -6,7 +6,7 @@ COPY composer.json ./
 COPY packages ./packages
 COPY skeleton ./skeleton
 RUN apk add --no-cache curl git \
-    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=2.11.1 \
     && composer dump-autoload --optimize --no-dev
 
 # Stage 2: Production PHP-FPM Runtime
@@ -60,6 +60,7 @@ RUN { \
     echo 'display_errors=Off'; \
     echo 'log_errors=On'; \
     echo 'error_log=/dev/stderr'; \
+    echo 'session.upload_progress.enabled=0'; \
 } > /usr/local/etc/php/conf.d/cna-production.ini
 
 WORKDIR /var/www/html

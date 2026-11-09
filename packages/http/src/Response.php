@@ -52,6 +52,9 @@ class Response implements ResponseInterface
 
     public function withStatus(int $code, string $reasonPhrase = ''): static
     {
+        if ($reasonPhrase !== '' && preg_match('/[\r\n]/', $reasonPhrase)) {
+            throw new \InvalidArgumentException("Reason phrase cannot contain CR or LF characters.");
+        }
         $clone = clone $this;
         $clone->statusCode = $code;
         $clone->reasonPhrase = $reasonPhrase !== '' ? $reasonPhrase : (self::$statusTexts[$code] ?? 'Unknown');
@@ -133,7 +136,20 @@ class Response implements ResponseInterface
 
     protected function setHeader(string $name, array $values): void
     {
-        $this->headers[strtolower($name)] = array_values($values);
+        if (preg_match('/[^\x21-\x7E]/', $name) || preg_match('/[\r\n]/', $name)) {
+            throw new \InvalidArgumentException("Invalid header name: [{$name}]. Header names cannot contain whitespace, control characters, or CRLF.");
+        }
+
+        $cleanValues = [];
+        foreach ($values as $value) {
+            $strVal = (string) $value;
+            if (preg_match('/[\r\n]/', $strVal)) {
+                throw new \InvalidArgumentException("Header [{$name}] value cannot contain CR or LF characters.");
+            }
+            $cleanValues[] = $strVal;
+        }
+
+        $this->headers[strtolower($name)] = $cleanValues;
     }
 }
 

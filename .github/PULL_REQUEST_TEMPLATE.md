@@ -14,3 +14,4 @@ Please include a summary of the changes and the related issue.
 - [ ] I have run `php cna security:check` and all checks pass.
 - [ ] I have added tests that prove my fix is effective or that my feature works.
 - [ ] If applicable, I have authored an ADR under `docs/adr/`.
+

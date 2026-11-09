@@ -35,7 +35,8 @@ class Request implements RequestInterface
         $this->method = strtoupper($method);
         $this->uri = $uri;
         $parsedUrl = parse_url($uri);
-        $this->path = $parsedUrl['path'] ?? '/';
+        $rawPath = $parsedUrl['path'] ?? '/';
+        $this->path = $this->canonicalizePath($rawPath, $uri);
         $this->headers = $this->normalizeHeaders($headers);
         $this->rawBody = $rawBody;
         $this->query = $query;
@@ -226,11 +227,43 @@ class Request implements RequestInterface
         return $this->attributes[$name] ?? $default;
     }
 
+    protected function canonicalizePath(string $path, string $originalUri): string
+    {
+        if (str_contains($path, "\0") || str_contains($originalUri, "\0")) {
+            throw new \InvalidArgumentException("Null byte detected in request URI.");
+        }
+
+        // Collapse leading slashes and separate host authority confusion (CVE-2026-118516)
+        if (str_starts_with($originalUri, '//')) {
+            $trimmed = '/' . ltrim($originalUri, '/');
+            $p = parse_url($trimmed, PHP_URL_PATH);
+            if ($p !== false && $p !== null) {
+                $path = $p;
+            }
+        }
+
+        // Canonicalize dot segments (/a/b/../c -> /a/c) to prevent path traversal access bypass
+        $segments = explode('/', str_replace('\\', '/', $path));
+        $resolved = [];
+        foreach ($segments as $segment) {
+            if ($segment === '' || $segment === '.') {
+                continue;
+            }
+            if ($segment === '..') {
+                array_pop($resolved);
+            } else {
+                $resolved[] = $segment;
+            }
+        }
+
+        return '/' . implode('/', $resolved);
+    }
+
     protected function parseBody(): void
     {
         if ($this->isJson() && !empty($this->rawBody)) {
             try {
-                $decoded = json_decode($this->rawBody, true, 512, JSON_THROW_ON_ERROR);
+                $decoded = json_decode($this->rawBody, true, 64, JSON_THROW_ON_ERROR);
                 if (is_array($decoded)) {
                     $this->parsedBody = $decoded;
                 }

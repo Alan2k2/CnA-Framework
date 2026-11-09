@@ -22,6 +22,10 @@ return [
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', ''),
             'charset' => 'utf8mb4',
+            'options' => [
+                // Enforce TLS certificate and hostname verification against MariaDB Connector/C MITM (CVE-2026-107819)
+                \PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => (bool) env('DB_SSL_VERIFY_SERVER_CERT', true),
+            ],
         ],
 
         'pgsql' => [
@@ -34,3 +38,4 @@ return [
         ],
     ],
 ];
+

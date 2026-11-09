@@ -46,6 +46,14 @@
             "Tests\\": "tests/",
             "SkeletonTests\\": "skeleton/tests/"
         }
+    },
+    "config": {
+        "platform": {
+            "php": "8.4.27"
+        },
+        "audit": {
+            "abandoned": "fail"
+        }
     }
 }
 

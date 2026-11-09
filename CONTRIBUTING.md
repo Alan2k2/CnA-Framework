@@ -64,3 +64,4 @@ If your change proposes a significant design shift or introduces a new paradigm,
 ## 📜 Code of Conduct
 
 Please treat everyone with respect and kindness. Let's build high-quality, secure software together!
+
