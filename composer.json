@@ -1,10 +1,48 @@
 {
-    "name": "cna/framework",
-    "description": "CnA Framework - Technical Architecture & Implementation",
+    "name": "alan2k2/cna-framework",
+    "description": "CnA Framework - The Contract-Driven, High-Performance PHP 8.4+ Framework",
+    "keywords": [
+        "php",
+        "framework",
+        "laravel",
+        "owasp-asvs",
+        "orm",
+        "ai",
+        "query-builder",
+        "high-performance",
+        "modular",
+        "api"
+    ],
+    "homepage": "https://alan2k2.github.io/CnA-Framework/",
     "type": "project",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Alan Shaju",
+            "email": "alanshaju26@icloud.com",
+            "role": "Lead Architect & Senior Software Engineer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/Alan2k2/CnA-Framework/issues",
+        "source": "https://github.com/Alan2k2/CnA-Framework",
+        "docs": "https://alan2k2.github.io/CnA-Framework/"
+    },
+    "bin": [
+        "cna"
+    ],
     "require": {
-        "php": ">=8.4"
+        "php": ">=8.4",
+        "ext-pdo": "*",
+        "ext-openssl": "*",
+        "ext-mbstring": "*",
+        "ext-json": "*"
+    },
+    "suggest": {
+        "ext-pdo_sqlite": "Required for default SQLite database driver",
+        "ext-pdo_mysql": "Required for MySQL / MariaDB database driver",
+        "ext-pdo_pgsql": "Required for PostgreSQL database driver",
+        "ext-curl": "Required for HTTP client and external AI provider communication"
     },
     "autoload": {
         "psr-4": {
@@ -53,7 +91,9 @@
         },
         "audit": {
             "abandoned": "fail"
-        }
-    }
+        },
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
 }
-
