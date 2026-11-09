@@ -8,6 +8,8 @@
 </p>
 
 <p align="center">
+  <a href="https://packagist.org/packages/alan2k2/cna-framework"><img src="https://img.shields.io/packagist/v/alan2k2/cna-framework.svg?style=flat-square" alt="Latest Packagist Version"></a>
+  <a href="https://packagist.org/packages/alan2k2/cna-framework"><img src="https://img.shields.io/packagist/dt/alan2k2/cna-framework.svg?style=flat-square" alt="Total Downloads"></a>
   <a href="https://alan2k2.github.io/CnA-Framework/"><img src="https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-38bdf8.svg?style=flat-square" alt="Live Demo"></a>
   <a href="https://github.com/Alan2k2/CnA-Framework/actions"><img src="https://img.shields.io/badge/CI-Passing-34d399.svg?style=flat-square" alt="CI Status"></a>
   <a href="https://www.php.net/"><img src="https://img.shields.io/badge/PHP-8.4%2B-818cf8.svg?style=flat-square" alt="PHP Version"></a>
