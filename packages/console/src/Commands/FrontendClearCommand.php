@@ -33,3 +33,4 @@ class FrontendClearCommand extends Command
         return Command::SUCCESS;
     }
 }
+

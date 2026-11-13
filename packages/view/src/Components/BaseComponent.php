@@ -69,3 +69,4 @@ abstract class BaseComponent implements ComponentInterface
      */
     abstract public function render(): string;
 }
+

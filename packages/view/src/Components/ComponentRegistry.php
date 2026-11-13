@@ -80,3 +80,4 @@ class ComponentRegistry
         return $this->components;
     }
 }
+

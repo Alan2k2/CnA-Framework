@@ -238,3 +238,4 @@ class ViewEngineTest extends TestCase
         $this->assertTrue(str_contains($rendered, 'Certified'));
     }
 }
+

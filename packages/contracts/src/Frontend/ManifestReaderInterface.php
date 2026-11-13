@@ -36,3 +36,4 @@ interface ManifestReaderInterface
      */
     public function clear(): void;
 }
+

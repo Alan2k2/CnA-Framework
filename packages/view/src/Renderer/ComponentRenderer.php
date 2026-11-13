@@ -49,3 +49,4 @@ class ComponentRenderer
         throw new InvalidArgumentException("Unable to resolve component [{$component}].");
     }
 }
+

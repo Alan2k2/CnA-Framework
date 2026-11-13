@@ -9,3 +9,4 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('🔒 CSRF Protection Token synced with client');
     }
 });
+

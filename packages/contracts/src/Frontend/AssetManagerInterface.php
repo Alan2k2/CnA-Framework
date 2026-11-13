@@ -46,3 +46,4 @@ interface AssetManagerInterface
      */
     public function asset(string $path): string;
 }
+

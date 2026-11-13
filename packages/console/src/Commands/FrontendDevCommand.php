@@ -35,3 +35,4 @@ class FrontendDevCommand extends Command
         return Command::SUCCESS;
     }
 }
+

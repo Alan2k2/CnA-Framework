@@ -26,3 +26,4 @@ return [
         'dashboard' => 'resources/modules/dashboard/index.ts',
     ],
 ];
+

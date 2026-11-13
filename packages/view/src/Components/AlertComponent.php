@@ -43,3 +43,4 @@ class AlertComponent extends BaseComponent
         );
     }
 }
+

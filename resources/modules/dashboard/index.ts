@@ -39,3 +39,4 @@ export function initDashboard(elementId = 'cna-dashboard'): void {
 document.addEventListener('DOMContentLoaded', () => {
     initDashboard();
 });
+

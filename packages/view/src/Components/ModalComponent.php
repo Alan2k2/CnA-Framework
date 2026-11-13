@@ -55,3 +55,4 @@ class ModalComponent extends BaseComponent
 HTML;
     }
 }
+

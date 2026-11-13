@@ -28,3 +28,4 @@ class BadgeComponent extends BaseComponent
         return sprintf('<span class="%s">%s</span>', $cssClass, $label);
     }
 }
+

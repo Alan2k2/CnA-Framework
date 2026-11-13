@@ -64,3 +64,4 @@ class TableComponent extends BaseComponent
 HTML;
     }
 }
+

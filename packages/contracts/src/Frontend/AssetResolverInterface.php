@@ -22,3 +22,4 @@ interface AssetResolverInterface
      */
     public function asset(string $path): string;
 }
+

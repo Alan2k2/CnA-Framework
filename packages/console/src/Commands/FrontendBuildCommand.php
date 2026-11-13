@@ -49,3 +49,4 @@ class FrontendBuildCommand extends Command
         }
     }
 }
+

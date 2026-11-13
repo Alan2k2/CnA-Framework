@@ -62,3 +62,4 @@ class FrontendStatusCommand extends Command
         return Command::SUCCESS;
     }
 }
+

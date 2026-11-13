@@ -32,3 +32,4 @@ class HtmlEscaper implements HtmlEscaperInterface
         return static::escape($value);
     }
 }
+

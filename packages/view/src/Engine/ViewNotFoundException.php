@@ -14,3 +14,4 @@ class ViewNotFoundException extends RuntimeException
         parent::__construct("View template [{$view}] could not be found.{$pathsStr}");
     }
 }
+

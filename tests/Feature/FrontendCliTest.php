@@ -122,3 +122,4 @@ class FrontendCliTest extends TestCase
         }
     }
 }
+

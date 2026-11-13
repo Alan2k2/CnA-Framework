@@ -75,3 +75,4 @@ class InputComponent extends BaseComponent
         return sprintf('<div class="cna-input-group mb-3">%s%s%s</div>', $labelHtml, $inputHtml, $feedbackHtml);
     }
 }
+

@@ -40,3 +40,4 @@ interface ViewEngineInterface
      */
     public function getShared(?string $key = null): mixed;
 }
+

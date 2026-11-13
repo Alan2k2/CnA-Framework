@@ -141,3 +141,4 @@ class AssetResolver implements AssetResolverInterface
         }
     }
 }
+

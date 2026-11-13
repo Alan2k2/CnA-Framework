@@ -79,3 +79,4 @@ class FrontendServiceProvider extends ServiceProvider
     {
     }
 }
+

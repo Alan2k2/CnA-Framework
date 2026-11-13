@@ -114,3 +114,4 @@ if (!function_exists('e')) {
         return HtmlEscaper::escape($value);
     }
 }
+

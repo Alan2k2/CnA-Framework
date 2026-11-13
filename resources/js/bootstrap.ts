@@ -20,3 +20,4 @@ export async function fetchApi<T = unknown>(url: string, options: RequestInit = 
     }
     return response.json();
 }
+

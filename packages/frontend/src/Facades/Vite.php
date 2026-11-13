@@ -70,3 +70,4 @@ class Vite
         return $renderer->renderCsrfMetaTag((string) $token);
     }
 }
+

@@ -50,3 +50,4 @@ class CardComponent extends BaseComponent
         return sprintf('<div%s>%s%s%s</div>', $this->buildAttributes($attrs), $headerHtml, $bodyHtml, $footerHtml);
     }
 }
+

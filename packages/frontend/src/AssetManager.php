@@ -107,3 +107,4 @@ class AssetManager implements AssetManagerInterface
         return implode("\n", array_unique($html));
     }
 }
+

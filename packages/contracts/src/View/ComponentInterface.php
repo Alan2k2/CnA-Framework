@@ -13,3 +13,4 @@ interface ComponentInterface
      */
     public function render(): string;
 }
+

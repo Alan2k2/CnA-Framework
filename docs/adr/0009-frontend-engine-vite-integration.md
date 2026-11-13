@@ -39,3 +39,4 @@ We adopt the **CnA Frontend Engine** as a first-class subsystem for CnA Framewor
 ## Consequences
 - **Positive**: Blazing-fast frontend DX with Vite HMR; accessible server-rendered components out of the box; zero frontend coupling in the core HTTP kernel; deployment-safe manifest caching.
 - **Operational Rule**: PHP and Vite remain separate processes. Node.js is required only at build time, not in production PHP runtimes.
+

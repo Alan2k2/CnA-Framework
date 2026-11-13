@@ -49,3 +49,4 @@ class ViewServiceProvider extends ServiceProvider
     {
     }
 }
+

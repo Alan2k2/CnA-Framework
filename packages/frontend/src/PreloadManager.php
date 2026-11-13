@@ -40,3 +40,4 @@ class PreloadManager implements PreloadManagerInterface
         $this->stylesheets = [];
     }
 }
+

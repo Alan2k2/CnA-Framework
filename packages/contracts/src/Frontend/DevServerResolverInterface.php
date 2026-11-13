@@ -29,3 +29,4 @@ interface DevServerResolverInterface
      */
     public function isTrustedOrigin(string $url): bool;
 }
+

@@ -23,3 +23,4 @@ interface HtmlEscaperInterface
      */
     public static function escapeAttribute(mixed $value): string;
 }
+

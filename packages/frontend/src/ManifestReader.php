@@ -100,3 +100,4 @@ class ManifestReader implements ManifestReaderInterface
         return null;
     }
 }
+

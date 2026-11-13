@@ -44,3 +44,4 @@ class AssetTagRenderer
         return sprintf('<meta name="csrf-token" content="%s">', HtmlEscaper::escape($token));
     }
 }
+

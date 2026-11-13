@@ -95,3 +95,4 @@ class DevServer implements DevServerResolverInterface
         return sprintf('<script type="module" src="%s"%s></script>', $clientUrl, $nonceAttr);
     }
 }
+

@@ -61,3 +61,4 @@ class ButtonComponent extends BaseComponent
         return sprintf('<button%s>%s%s</button>', $this->buildAttributes($attrs), $iconHtml, $label);
     }
 }
+
