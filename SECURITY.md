@@ -70,3 +70,4 @@ CnA Framework is built with native **OWASP ASVS Level 2** baseline defenses:
 - **Automated Security Auditing**: Built-in CLI command `php cna security:audit` verifying dependencies, headers, and file permissions.
 
 Thank you for helping keep CnA Framework and its community safe!
+
