@@ -110,6 +110,19 @@
         },
         "sort-packages": true
     },
+    "scripts": {
+        "security:audit": "php cna security:audit",
+        "security:report": "php cna security:report --format=json",
+        "test": "php cna test",
+        "doctor": "php cna doctor",
+        "check": [
+            "@composer validate --strict",
+            "composer audit",
+            "php cna doctor",
+            "php cna security:audit",
+            "php cna test"
+        ]
+    },
     "minimum-stability": "stable",
     "prefer-stable": true
 }
