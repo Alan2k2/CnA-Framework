@@ -1,0 +1,60 @@
+/* CnA Framework v2.0 - Core Design System & Component Tokens */
+:root {
+    --cna-bg: #090d16;
+    --cna-surface: #0f172a;
+    --cna-surface-raised: #1e293b;
+    --cna-border: #334155;
+    --cna-border-focus: #06b6d4;
+    --cna-primary: #06b6d4;
+    --cna-primary-hover: #0891b2;
+    --cna-text-main: #f8fafc;
+    --cna-text-muted: #94a3b8;
+    --cna-success: #10b981;
+    --cna-warning: #f59e0b;
+    --cna-danger: #ef4444;
+}
+
+/* Base Buttons */
+.cna-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+    border: 1px solid transparent;
+    text-decoration: none;
+}
+.cna-btn:focus {
+    outline: 2px solid var(--cna-primary);
+    outline-offset: 2px;
+}
+.cna-btn-small { padding: 0.35rem 0.75rem; font-size: 0.75rem; }
+.cna-btn-medium { padding: 0.5rem 1rem; font-size: 0.875rem; }
+.cna-btn-large { padding: 0.75rem 1.5rem; font-size: 1rem; }
+
+.cna-btn-primary { background: linear-gradient(135deg, #06b6d4, #3b82f6); color: #fff; }
+.cna-btn-primary:hover { background: linear-gradient(135deg, #0891b2, #2563eb); }
+.cna-btn-secondary { background: #1e293b; color: #f8fafc; border-color: #334155; }
+.cna-btn-secondary:hover { background: #334155; }
+.cna-btn-danger { background: #ef4444; color: #fff; }
+.cna-btn-danger:hover { background: #dc2626; }
+.cna-btn-outline { background: transparent; border-color: #06b6d4; color: #06b6d4; }
+.cna-btn-outline:hover { background: rgba(6, 182, 212, 0.1); }
+
+/* Badges */
+.cna-badge { font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+.cna-badge-primary { background: rgba(6, 182, 212, 0.15); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.3); }
+.cna-badge-success { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+.cna-badge-warning { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+.cna-badge-danger { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+
+/* Alerts */
+.cna-alert { border: 1px solid; }
+.cna-alert-info { background: rgba(15, 23, 42, 0.8); border-color: #0284c7; color: #e0f2fe; }
+.cna-alert-success { background: rgba(6, 78, 59, 0.4); border-color: #059669; color: #d1fae5; }
+.cna-alert-warning { background: rgba(120, 53, 15, 0.4); border-color: #d97706; color: #fef3c7; }
+.cna-alert-danger { background: rgba(127, 29, 29, 0.4); border-color: #dc2626; color: #fee2e2; }
+.cna-alert-close { background: none; border: none; color: inherit; font-size: 1.25rem; cursor: pointer; opacity: 0.7; }
+.cna-alert-close:hover { opacity: 1; }

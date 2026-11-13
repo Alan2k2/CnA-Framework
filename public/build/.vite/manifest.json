@@ -1,0 +1,34 @@
+{
+  "resources/js/app.ts": {
+    "file": "assets/app-cna2001.js",
+    "name": "app",
+    "src": "resources/js/app.ts",
+    "isEntry": true,
+    "css": [
+      "assets/app-cna2001.css"
+    ],
+    "imports": [
+      "_vendor-cna2001.js"
+    ]
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-cna2001.css",
+    "src": "resources/css/app.css"
+  },
+  "resources/modules/dashboard/index.ts": {
+    "file": "assets/dashboard-cna2001.js",
+    "name": "dashboard",
+    "src": "resources/modules/dashboard/index.ts",
+    "isEntry": true,
+    "css": [
+      "assets/dashboard-cna2001.css"
+    ],
+    "imports": [
+      "_vendor-cna2001.js"
+    ]
+  },
+  "_vendor-cna2001.js": {
+    "file": "assets/vendor-cna2001.js",
+    "name": "vendor"
+  }
+}

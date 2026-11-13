@@ -17,6 +17,8 @@ return [
         \CnA\Core\Providers\AiServiceProvider::class,
         \CnA\Core\Providers\MonitoringServiceProvider::class,
         \CnA\Core\Providers\RoutingServiceProvider::class,
+        \CnA\View\ViewServiceProvider::class,
+        \CnA\Frontend\FrontendServiceProvider::class,
     ],
 ];
 

@@ -9,6 +9,9 @@
         "orm",
         "ai",
         "query-builder",
+        "frontend-engine",
+        "vite",
+        "ui-components",
         "high-performance",
         "modular",
         "api"
@@ -73,10 +76,15 @@
             "CnA\\Logging\\": "packages/logging/src/",
             "CnA\\Monitoring\\": "packages/monitoring/src/",
             "CnA\\Testing\\": "packages/testing/src/",
+            "CnA\\View\\": "packages/view/src/",
+            "CnA\\Frontend\\": "packages/frontend/src/",
+            "CnA\\FrontendReact\\": "packages/frontend-react/src/",
+            "CnA\\FrontendVue\\": "packages/frontend-vue/src/",
             "App\\": "skeleton/app/"
         },
         "files": [
-            "packages/core/src/helpers.php"
+            "packages/core/src/helpers.php",
+            "packages/view/src/Helpers/view_helpers.php"
         ]
     },
     "autoload-dev": {

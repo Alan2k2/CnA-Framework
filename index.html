@@ -706,12 +706,13 @@
 
     <!-- Navigation Header -->
     <nav>
-        <a href="#" class="nav-brand">
+        <a href="/" class="nav-brand">
             <img src="./public/images/cna-icon.png" alt="CnA Framework Logo" class="nav-brand-img">
             <span>CnA Framework</span>
         </a>
         <ul class="nav-links">
             <li><a href="#architecture">Architecture</a></li>
+            <li><a href="#frontend">Frontend Engine</a></li>
             <li><a href="#features">Features</a></li>
             <li><a href="#commands">Commands</a></li>
             <li><a href="#helpers">Functions</a></li>
@@ -736,7 +737,7 @@
             </div>
             <div class="nav-status">
                 <div class="status-dot"></div>
-                <span>PHP 8.4.5 &bull; Operational</span>
+                <span>PHP 8.4+ &bull; Operational</span>
             </div>
         </div>
     </nav>
@@ -746,7 +747,7 @@
         <!-- Hero Section -->
         <section class="hero">
             <div class="pill-badge">
-                <span>Version 1.0 Baseline &bull; Production Ready</span>
+                <span>Version 2.0 Major Update &bull; Frontend Engine &amp; Vite Integration</span>
             </div>
             <div class="hero-logo-container">
                 <div class="hero-logo-card">
@@ -755,7 +756,7 @@
             </div>
             <h1>The Contract-Driven PHP Framework</h1>
             <p class="lead">
-                Built for high-scale APIs, modern web apps, and background workers. Combining Laravel's beloved ergonomics with strict layered architecture, OWASP ASVS Level 2 security, zero-leak DI, and native N+1 prevention.
+                Built for high-scale APIs, modern web apps, and background workers. Combining Laravel's beloved ergonomics with strict layered architecture, OWASP ASVS Level 2 security, zero-leak DI, native N+1 prevention, and the Version 2.0 Vite-powered Frontend Engine.
             </p>
 
             <div class="quick-start-bar">
@@ -905,12 +906,57 @@
                 <div class="feature-card">
                     <div class="feature-icon-wrapper">📦</div>
                     <h3>Strict Modular Monorepo</h3>
-                    <p>27 decoupled packages under the `CnA\` namespace. The contracts package never depends on concrete adapters, ensuring true dependency inversion.</p>
+                    <p>31 decoupled packages under the `CnA\` namespace. The contracts package never depends on concrete adapters, ensuring true dependency inversion.</p>
                     <div class="feature-tags">
-                        <span class="feature-tag">27 Packages</span>
+                        <span class="feature-tag">31 Packages</span>
                         <span class="feature-tag">Pure Contracts</span>
                         <span class="feature-tag">Clean Architecture</span>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Frontend Engine (Version 2.0 Major Update) -->
+        <section id="frontend">
+            <div class="section-header">
+                <span class="section-tag" style="background: rgba(6, 182, 212, 0.15); color: #22d3ee; border-color: rgba(6, 182, 212, 0.3);">Version 2.0 Major Update</span>
+                <h2 class="section-title">CnA Frontend Engine &amp; Vite Integration</h2>
+                <p class="section-desc">
+                    A first-class frontend subsystem integrating Vite with PHP 8.4+ while preserving strict modular boundaries, accessible server-rendered UI components, and optional React/Vue adapters.
+                </p>
+            </div>
+
+            <div class="frontend-showcase-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                <!-- Card 1: Vite Asset Pipeline -->
+                <div class="feature-card" style="border-top: 3px solid #06b6d4;">
+                    <div class="feature-icon-wrapper" style="background: rgba(6, 182, 212, 0.15); color: #06b6d4;">⚡</div>
+                    <h3>Vite Asset Pipeline &amp; HMR</h3>
+                    <p>In development mode, requests query the local loopback Vite dev server (<code>http://127.0.0.1:5173</code>) for instant Hot Module Replacement. In production, assets are resolved from <code>manifest.json</code> with automated CSS and modulepreload deduplication.</p>
+                    <pre style="background: rgba(6, 9, 17, 0.8); border: 1px solid var(--border); padding: 0.75rem; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #38bdf8; overflow-x: auto; margin-top: 0.75rem;">&lt;?= \CnA\Frontend\Facades\Vite::assets('app') ?&gt;
+&lt;?= \CnA\Frontend\Facades\Vite::csrf() ?&gt;</pre>
+                </div>
+
+                <!-- Card 2: Server-Rendered UI Components -->
+                <div class="feature-card" style="border-top: 3px solid #3b82f6;">
+                    <div class="feature-icon-wrapper" style="background: rgba(59, 130, 246, 0.15); color: #3b82f6;">🧩</div>
+                    <h3>Accessible UI Components</h3>
+                    <p>Built-in catalogue of accessible, server-rendered components with strict HTML escaping, ARIA attributes, and design tokens: <code>ui.button</code>, <code>ui.alert</code>, <code>ui.badge</code>, <code>ui.card</code>, <code>ui.input</code>, <code>ui.modal</code>, <code>ui.table</code>.</p>
+                    <pre style="background: rgba(6, 9, 17, 0.8); border: 1px solid var(--border); padding: 0.75rem; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #38bdf8; overflow-x: auto; margin-top: 0.75rem;">&lt;?= component('ui.button', [
+    'label' =&gt; 'Submit Order',
+    'variant' =&gt; 'primary',
+    'size' =&gt; 'medium',
+]) ?&gt;</pre>
+                </div>
+
+                <!-- Card 3: Modular UI & Adapters -->
+                <div class="feature-card" style="border-top: 3px solid #8b5cf6;">
+                    <div class="feature-icon-wrapper" style="background: rgba(139, 92, 246, 0.15); color: #8b5cf6;">📦</div>
+                    <h3>UI Modules, React &amp; Vue</h3>
+                    <p>Organize frontend feature boundaries under <code>resources/modules/{name}/</code>. Render declarative DOM mount containers with <code>ReactAdapter::mount()</code> and <code>VueAdapter::mount()</code> without coupling the PHP kernel.</p>
+                    <pre style="background: rgba(6, 9, 17, 0.8); border: 1px solid var(--border); padding: 0.75rem; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #38bdf8; overflow-x: auto; margin-top: 0.75rem;">&lt;!-- Scaffold a new module in 1 click --&gt;
+php cna make:ui-module dashboard
+&lt;!-- React / Vue declarative mounting --&gt;
+&lt;?= ReactAdapter::mount('Dashboard', ['userId' =&gt; 42]) ?&gt;</pre>
                 </div>
             </div>
         </section>
@@ -928,6 +974,7 @@
             <div class="cli-container">
                 <div class="cli-tabs">
                     <button class="cli-tab-btn active" onclick="filterCommands('all', this)">All Commands</button>
+                    <button class="cli-tab-btn" onclick="filterCommands('frontend', this)">Frontend &amp; Vite</button>
                     <button class="cli-tab-btn" onclick="filterCommands('server', this)">Server & Dev</button>
                     <button class="cli-tab-btn" onclick="filterCommands('db', this)">Database & Migrations</button>
                     <button class="cli-tab-btn" onclick="filterCommands('make', this)">Generators</button>
@@ -943,6 +990,41 @@
                         </tr>
                     </thead>
                     <tbody id="cliTableBody">
+                        <tr data-cat="frontend">
+                            <td><span class="cli-cmd">php cna frontend:install</span></td>
+                            <td class="cli-desc">Scaffold baseline Vite configuration, package.json, and frontend asset directories</td>
+                            <td style="text-align: right;"><button class="copy-btn" onclick="copyText('php cna frontend:install')">Copy</button></td>
+                        </tr>
+                        <tr data-cat="frontend">
+                            <td><span class="cli-cmd">php cna frontend:dev</span></td>
+                            <td class="cli-desc">Inspect and guide the loopback Vite development server with Hot Module Replacement (HMR)</td>
+                            <td style="text-align: right;"><button class="copy-btn" onclick="copyText('php cna frontend:dev')">Copy</button></td>
+                        </tr>
+                        <tr data-cat="frontend">
+                            <td><span class="cli-cmd">php cna frontend:build</span></td>
+                            <td class="cli-desc">Verify production Vite build artifacts and parse the output manifest</td>
+                            <td style="text-align: right;"><button class="copy-btn" onclick="copyText('php cna frontend:build')">Copy</button></td>
+                        </tr>
+                        <tr data-cat="frontend">
+                            <td><span class="cli-cmd">php cna frontend:status</span></td>
+                            <td class="cli-desc">Report mode, configured entry points, Vite dev-server reachability, manifest, and build outputs</td>
+                            <td style="text-align: right;"><button class="copy-btn" onclick="copyText('php cna frontend:status')">Copy</button></td>
+                        </tr>
+                        <tr data-cat="frontend">
+                            <td><span class="cli-cmd">php cna frontend:clear</span></td>
+                            <td class="cli-desc">Clear cached frontend manifest and preloaded asset metadata</td>
+                            <td style="text-align: right;"><button class="copy-btn" onclick="copyText('php cna frontend:clear')">Copy</button></td>
+                        </tr>
+                        <tr data-cat="frontend make">
+                            <td><span class="cli-cmd">php cna make:ui-module</span></td>
+                            <td class="cli-desc">Scaffold a new frontend UI feature module with TypeScript and styles (e.g. <code>dashboard</code>)</td>
+                            <td style="text-align: right;"><button class="copy-btn" onclick="copyText('php cna make:ui-module dashboard')">Copy</button></td>
+                        </tr>
+                        <tr data-cat="frontend make">
+                            <td><span class="cli-cmd">php cna make:component</span></td>
+                            <td class="cli-desc">Generate an accessible server-rendered PHP UI component class extending <code>BaseComponent</code></td>
+                            <td style="text-align: right;"><button class="copy-btn" onclick="copyText('php cna make:component UserProfile')">Copy</button></td>
+                        </tr>
                         <tr data-cat="server">
                             <td><span class="cli-cmd">php cna serve</span></td>
                             <td class="cli-desc">Start the local development server (supports <code>--host</code> and <code>--port</code>)</td>
@@ -1107,6 +1189,24 @@
                 </div>
 
                 <div class="helper-card">
+                    <div class="helper-sig">component(string $name, array $props = [])</div>
+                    <div class="helper-desc">Render an accessible server-rendered UI component.</div>
+                    <pre>&lt;?= component('ui.button', ['label' => 'Pay', 'variant' => 'primary']) ?&gt;</pre>
+                </div>
+
+                <div class="helper-card">
+                    <div class="helper-sig">Vite::assets(string|array $entries)</div>
+                    <div class="helper-desc">Emit Vite HMR dev script or hashed production assets with preloads.</div>
+                    <pre>&lt;?= \CnA\Frontend\Facades\Vite::assets('app') ?&gt;</pre>
+                </div>
+
+                <div class="helper-card">
+                    <div class="helper-sig">layout(string $name) / yield_section()</div>
+                    <div class="helper-desc">Define parent layout templates and inject named content sections.</div>
+                    <pre>layout('layouts.app'); // In view template</pre>
+                </div>
+
+                <div class="helper-card">
                     <div class="helper-sig">bcrypt(string $value, array $options = [])</div>
                     <div class="helper-desc">Securely hash passwords using native algorithms.</div>
                     <pre>$hash = bcrypt('my-secret-password');</pre>
@@ -1166,7 +1266,7 @@
                 <img src="./public/images/cna-icon.png" alt="CnA Logo" style="width: 28px; height: 28px; border-radius: 6px; box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);">
                 <strong style="color: #fff; font-size: 1rem;">CnA Framework</strong>
             </div>
-            <p>Version 1.0 Baseline &bull; PHP 8.4+ Architecture & Implementation</p>
+            <p>Version 2.0 Major Update &bull; PHP 8.4+ Architecture &amp; Frontend Engine</p>
             <p style="margin-top: 0.5rem;">Open-source software designed & engineered by <strong>Alan Shaju</strong> &bull; Licensed under the <a href="/docs/adr/0001-pdo-database-foundation.md">MIT License</a>.</p>
         </footer>
 
@@ -1191,83 +1291,13 @@
 
             const rows = document.querySelectorAll('#cliTableBody tr');
             rows.forEach(row => {
-                if (cat === 'all' || row.getAttribute('data-cat') === cat) {
+                if (cat === 'all' || (row.getAttribute('data-cat') || '').includes(cat)) {
                     row.style.display = '';
                 } else {
                     row.style.display = 'none';
                 }
             });
         }
-
-                const mockResponses = {
-            '/api/v1/health': {
-                status: 'operational',
-                framework: 'CnA Framework',
-                version: '1.0.0-dev',
-                runtime: 'PHP 8.4.5 (Zend Engine v4.4.5, OPcache Active)',
-                timestamp: new Date().toISOString(),
-                environment: 'production',
-                security: {
-                    owasp_asvs: 'Level 2 Compliant',
-                    aead_encryption: 'AES-256-GCM',
-                    password_hashing: 'Argon2id'
-                },
-                diagnostics: {
-                    database: 'Connected (SQLite & PostgreSQL Ready)',
-                    cache: 'Healthy (Array & File Stores)',
-                    queue: 'Worker Daemon Ready',
-                    ai_subsystem: 'PromptGuard & VectorStore Ready'
-                }
-            },
-            '/api/v1/orders': {
-                data: [
-                    {
-                        id: 1,
-                        user_id: 101,
-                        total_amount: 149.99,
-                        status: 'completed',
-                        created_at: '2026-11-07T12:00:00Z',
-                        user: { id: 101, name: 'Alice Customer', email: 'alice@cna.test' },
-                        items: [
-                            { id: 1, product_name: 'CnA Cloud License', price: 149.99, quantity: 1 }
-                        ]
-                    },
-                    {
-                        id: 2,
-                        user_id: 102,
-                        total_amount: 59.00,
-                        status: 'processing',
-                        created_at: '2026-11-07T12:15:00Z',
-                        user: { id: 102, name: 'Bob Merchant', email: 'bob@cna.test' },
-                        items: [
-                            { id: 2, product_name: 'Security Audit Addon', price: 59.00, quantity: 1 }
-                        ]
-                    }
-                ],
-                meta: {
-                    total: 2,
-                    per_page: 15,
-                    current_page: 1,
-                    optimizations: {
-                        eager_loading: 'O(1) active with user, items',
-                        query_budget_limit: 10,
-                        actual_queries: 3,
-                        n_plus_one_violations: 0
-                    }
-                }
-            },
-            '/api/v1/orders/1': {
-                id: 1,
-                user_id: 101,
-                total_amount: 149.99,
-                status: 'completed',
-                created_at: '2026-11-07T12:00:00Z',
-                user: { id: 101, name: 'Alice Customer', email: 'alice@cna.test' },
-                items: [
-                    { id: 1, product_name: 'CnA Cloud License', price: 149.99, quantity: 1 }
-                ]
-            }
-        };
 
         async function executeApiCall() {
             const select = document.getElementById('endpointSelect');
@@ -1276,23 +1306,20 @@
 
             terminal.innerText = `// Sending GET ${endpoint} ...\n`;
 
-            const start = performance.now();
             try {
+                const start = performance.now();
                 const res = await fetch(endpoint, {
                     headers: { 'Accept': 'application/json' }
                 });
-                if (!res.ok) throw new Error('Fetch failed');
                 const elapsed = (performance.now() - start).toFixed(1);
                 const data = await res.json();
+
                 terminal.innerText = `// HTTP Status: ${res.status} ${res.statusText} (${elapsed}ms)\n// Headers: Content-Type: ${res.headers.get('content-type')}\n\n` + JSON.stringify(data, null, 2);
             } catch (err) {
-                // Static GitHub Pages demo fallback
-                const elapsed = (performance.now() - start + 8).toFixed(1);
-                const data = mockResponses[endpoint] || { message: 'Demo response', endpoint: endpoint };
-                terminal.innerText = `// HTTP Status: 200 OK (${elapsed}ms) [Static GitHub Pages Demo]\n// Headers: Content-Type: application/json; charset=UTF-8\n\n` + JSON.stringify(data, null, 2);
+                terminal.innerText = `// Error: ${err.message}`;
             }
         }
     </script>
-    <script src="./public/js/app.js"></script>
+    <script src="/js/app.js"></script>
 </body>
 </html>

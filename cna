@@ -37,6 +37,10 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
             'CnA\\Logging\\' => __DIR__ . '/packages/logging/src/',
             'CnA\\Monitoring\\' => __DIR__ . '/packages/monitoring/src/',
             'CnA\\Testing\\' => __DIR__ . '/packages/testing/src/',
+            'CnA\\View\\' => __DIR__ . '/packages/view/src/',
+            'CnA\\Frontend\\' => __DIR__ . '/packages/frontend/src/',
+            'CnA\\FrontendReact\\' => __DIR__ . '/packages/frontend-react/src/',
+            'CnA\\FrontendVue\\' => __DIR__ . '/packages/frontend-vue/src/',
             'App\\' => __DIR__ . '/skeleton/app/',
         ];
 
@@ -97,6 +101,13 @@ $console->register(new \CnA\Console\Commands\MakeServiceCommand($app));
 $console->register(new \CnA\Console\Commands\MakeRepositoryCommand($app));
 $console->register(new \CnA\Console\Commands\MakeModelCommand($app));
 $console->register(new \CnA\Console\Commands\MakeMigrationCommand($app));
+$console->register(new \CnA\Console\Commands\FrontendInstallCommand($app));
+$console->register(new \CnA\Console\Commands\FrontendDevCommand($app));
+$console->register(new \CnA\Console\Commands\FrontendBuildCommand($app));
+$console->register(new \CnA\Console\Commands\FrontendStatusCommand($app));
+$console->register(new \CnA\Console\Commands\FrontendClearCommand($app));
+$console->register(new \CnA\Console\Commands\MakeUiModuleCommand($app));
+$console->register(new \CnA\Console\Commands\MakeComponentCommand($app));
 
 $status = $console->run($argv);
 exit($status);

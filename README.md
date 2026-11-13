@@ -3,8 +3,8 @@
 </p>
 
 <p align="center">
-  <strong>The Contract-Driven PHP Framework</strong><br>
-  <em>Secure • Scalable • Intelligent</em>
+  <strong>The Contract-Driven PHP Framework • Version 2.0</strong><br>
+  <em>Secure • Scalable • Intelligent • Modern Frontend Engine</em>
 </p>
 
 <p align="center">
@@ -15,13 +15,14 @@
   <a href="https://www.php.net/"><img src="https://img.shields.io/badge/PHP-8.4%2B-818cf8.svg?style=flat-square" alt="PHP Version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-38bdf8.svg?style=flat-square" alt="License"></a>
   <a href="https://owasp.org/www-project-application-security-verification-standard/"><img src="https://img.shields.io/badge/OWASP%20ASVS-Level%202%20Compliant-34d399.svg?style=flat-square" alt="OWASP ASVS"></a>
+  <a href="https://vite.dev/"><img src="https://img.shields.io/badge/Frontend-Vite%20Engine-06b6d4.svg?style=flat-square" alt="Vite Engine"></a>
 </p>
 
 ---
 
-## 🌟 About CnA Framework
+## 🌟 About CnA Framework (Version 2.0)
 
-**CnA Framework** is a contract-driven, high-performance PHP 8.4+ modular monorepo framework built for mission-critical web applications, high-throughput APIs, and background worker systems. It pairs the beloved developer ergonomics of Laravel with strict architectural boundaries, native OWASP ASVS Level 2 defenses, zero-leak dependency injection, built-in $O(1)$ eager loading with N+1 query prevention, and a provider-independent AI subsystem.
+**CnA Framework** is a contract-driven, high-performance PHP 8.4+ modular monorepo framework built for mission-critical web applications, high-throughput APIs, modern interactive user interfaces, and background worker systems. It pairs the beloved developer ergonomics of Laravel with strict architectural boundaries, native OWASP ASVS Level 2 defenses, zero-leak dependency injection, built-in $O(1)$ eager loading with N+1 query prevention, a provider-independent AI subsystem, and a **first-class Vite-powered Frontend Engine**.
 
 ### 👨‍💻 Framework Architect & Lead Developer
 - **Author**: **Alan Shaju** (Senior Software Engineer)
@@ -102,8 +103,16 @@ CnA Framework is built strictly according to enterprise software engineering sta
    - `ToolRegistry`: Permissioned tool execution with execution schemas, timeouts, and structured audit trails.
    - `VectorStore`: In-memory RAG vector store with cosine similarity and tenant isolation filtering.
 
-5. **Turnkey CLI Experience (`php cna` or `./cna`)**:
-   - Generators: `make:controller`, `make:service`, `make:repository`, `make:model`, `make:migration`
+5. **First-Class Frontend Engine & Vite Integration (Version 2.0)**:
+   - **Vite Asset Pipeline**: Development HMR on loopback (`http://127.0.0.1:5173`) and fingerprinted production manifest (`.vite/manifest.json`) resolution.
+   - **Accessible UI Components**: Built-in server-rendered component catalogue (`ui.button`, `ui.alert`, `ui.badge`, `ui.card`, `ui.input`, `ui.modal`, `ui.table`) with strict HTML escaping.
+   - **Feature UI Modules**: Modular frontend architecture under `resources/modules/{name}/`.
+   - **React & Vue Adapters**: Optional declarative DOM mount helpers (`ReactAdapter::mount()`, `VueAdapter::mount()`).
+   - **Strict Path Security**: Complete protection against path traversal, symlink escapes, and unauthorized origins.
+
+6. **Turnkey CLI Experience (`php cna` or `./cna`)**:
+   - Frontend: `frontend:install`, `frontend:dev`, `frontend:build`, `frontend:status`, `frontend:clear`
+   - Generators: `make:controller`, `make:service`, `make:repository`, `make:model`, `make:migration`, `make:ui-module`, `make:component`
    - Migrations: `migrate`, `migrate:rollback`, `migrate:refresh`, `db:status`
    - Diagnostics: `doctor`, `route:list`, `db:profile`, `security:check`, `about`
    - AI Diagnostics: `ai:diagnose`, `ai:providers`, `ai:usage`
@@ -118,10 +127,12 @@ cna-framework/
 ├── cna                        # CLI executable script
 ├── cna.bat                    # Windows native CLI launcher
 ├── server.php                 # Dev server rewrite router
+├── vite.config.js             # Vite asset pipeline configuration
+├── package.json               # Frontend dependencies & scripts
 ├── composer.json              # Monorepo composer configuration
 ├── .env.example               # Environment template
-├── packages/                  # 27 Modular Packages (independent composer manifests)
-│   ├── contracts/             # Core interfaces (Container, DB, HTTP, AI, Cache, etc.)
+├── packages/                  # 31 Modular Packages (independent composer manifests)
+│   ├── contracts/             # Core interfaces (Container, DB, HTTP, AI, View, Frontend, etc.)
 │   ├── core/                  # Application engine, pipeline, service providers & helpers
 │   ├── container/             # DI container with autowiring, singletons, scoped & circular detection
 │   ├── config/                # Dot-notation typed configuration & Env parser
@@ -137,6 +148,10 @@ cna-framework/
 │   ├── auth/                  # Authentication manager, guards & password hashing
 │   ├── authorization/         # Gate & RBAC policy system (deny-by-default)
 │   ├── security/              # AEAD Encrypter, CSRF manager, SSRF validator, HTML escaper
+│   ├── view/                  # Server-rendered layouts, sections & accessible UI components
+│   ├── frontend/              # Vite integration, manifest reader, asset resolver & preloads
+│   ├── frontend-react/        # Optional React client bootstrapping & mount adapter
+│   ├── frontend-vue/          # Optional Vue client bootstrapping & mount adapter
 │   ├── cache/                 # Cache manager (array, file, database stores & atomic locks)
 │   ├── queue/                 # Queue manager, sync & database drivers, worker daemon
 │   ├── events/                # Event dispatcher & subscribers
