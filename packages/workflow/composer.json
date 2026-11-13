@@ -1,0 +1,15 @@
+{
+    "name": "cna/workflow",
+    "description": "State machine, step orchestrator, saga compensation, and workflow engine for CnA Framework",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "CnA\\Workflow\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=8.4",
+        "cna/contracts": "*"
+    }
+}

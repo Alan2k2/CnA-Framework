@@ -1,0 +1,15 @@
+{
+    "name": "cna/admin",
+    "description": "Admin Studio management and operational telemetry dashboard for CnA Framework",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "CnA\\Admin\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=8.4",
+        "cna/contracts": "*"
+    }
+}

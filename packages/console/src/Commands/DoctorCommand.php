@@ -27,6 +27,9 @@ class DoctorCommand extends Command
         $openSslVer = defined('OPENSSL_VERSION_TEXT') ? OPENSSL_VERSION_TEXT : 'Installed';
         $sqliteVer = class_exists(\SQLite3::class) ? \SQLite3::version()['versionString'] : 'Installed';
 
+        $envExists = file_exists($this->app->basePath('.env'));
+        $envExampleExists = file_exists($this->app->basePath('.env.example'));
+
         $checks = [
             [
                 'PHP Runtime Baseline (>= 8.4)',
@@ -49,14 +52,14 @@ class DoctorCommand extends Command
             ['MBString Extension', extension_loaded('mbstring'), 'Installed'],
             ['JSON Extension', extension_loaded('json'), 'Installed'],
             ['Storage Directory Writable', $storageWritable, $this->app->storagePath()],
-            ['Environment (.env) Exists', file_exists($this->app->basePath('.env')), file_exists($this->app->basePath('.env')) ? 'Found' : 'Missing (Copy .env.example)'],
+            ['Environment (.env) Exists', $envExists, $envExists ? 'Found' : ($envExampleExists ? 'Missing (.env.example available)' : 'Missing')],
         ];
 
         $rows = [];
         $hasFailure = false;
 
         foreach ($checks as [$label, $passed, $details]) {
-            if (!$passed && $label !== 'PHP Security Patch Level' && $label !== 'Session Upload Progress (CVE-2026-115560)') {
+            if (!$passed && !in_array($label, ['PHP Security Patch Level', 'Session Upload Progress (CVE-2026-115560)', 'Environment (.env) Exists'], true)) {
                 $hasFailure = true;
                 $status = "\033[31mFAIL\033[0m";
             } elseif (!$passed) {

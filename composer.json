@@ -80,6 +80,12 @@
             "CnA\\Frontend\\": "packages/frontend/src/",
             "CnA\\FrontendReact\\": "packages/frontend-react/src/",
             "CnA\\FrontendVue\\": "packages/frontend-vue/src/",
+            "CnA\\Workflow\\": "packages/workflow/src/",
+            "CnA\\Tenancy\\": "packages/multitenancy/src/",
+            "CnA\\Features\\": "packages/feature-flags/src/",
+            "CnA\\Plugins\\": "packages/plugin-manager/src/",
+            "CnA\\Devtools\\": "packages/devtools/src/",
+            "CnA\\Admin\\": "packages/admin/src/",
             "App\\": "skeleton/app/"
         },
         "files": [

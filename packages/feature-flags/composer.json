@@ -1,0 +1,15 @@
+{
+    "name": "cna/feature-flags",
+    "description": "Dynamic feature flag evaluation, percentage rollouts, and contextual targeting for CnA Framework",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "CnA\\Features\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=8.4",
+        "cna/contracts": "*"
+    }
+}

@@ -3,31 +3,31 @@
     "version": "1.0.0-dev",
     "php_version": "8.4.5",
     "os": "WINNT",
-    "timestamp": "2026-11-13T10:20:19+00:00",
+    "timestamp": "2026-11-13T11:40:08+00:00",
     "metrics": {
         "container_resolution": {
             "iterations": 50000,
-            "total_ms": 35.51,
-            "ops_per_second": 1407915,
-            "avg_microseconds_per_op": 0.7103
+            "total_ms": 34.18,
+            "ops_per_second": 1463036,
+            "avg_microseconds_per_op": 0.6835
         },
         "router_dispatch": {
             "iterations": 50000,
-            "total_ms": 349.86,
-            "ops_per_second": 142916,
-            "avg_microseconds_per_op": 6.9971
+            "total_ms": 352.09,
+            "ops_per_second": 142008,
+            "avg_microseconds_per_op": 7.0419
         },
         "query_builder_compilation": {
             "iterations": 25000,
-            "total_ms": 141.8,
-            "ops_per_second": 176308,
-            "avg_microseconds_per_op": 5.6719
+            "total_ms": 143.68,
+            "ops_per_second": 173996,
+            "avg_microseconds_per_op": 5.7472
         },
         "model_hydration": {
             "iterations": 25000,
-            "total_ms": 10.22,
-            "ops_per_second": 2445036,
-            "avg_microseconds_per_op": 0.409
+            "total_ms": 10.34,
+            "ops_per_second": 2418684,
+            "avg_microseconds_per_op": 0.4134
         }
     }
 }

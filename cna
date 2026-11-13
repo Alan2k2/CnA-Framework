@@ -41,6 +41,12 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
             'CnA\\Frontend\\' => __DIR__ . '/packages/frontend/src/',
             'CnA\\FrontendReact\\' => __DIR__ . '/packages/frontend-react/src/',
             'CnA\\FrontendVue\\' => __DIR__ . '/packages/frontend-vue/src/',
+            'CnA\\Workflow\\' => __DIR__ . '/packages/workflow/src/',
+            'CnA\\Tenancy\\' => __DIR__ . '/packages/multitenancy/src/',
+            'CnA\\Features\\' => __DIR__ . '/packages/feature-flags/src/',
+            'CnA\\Plugins\\' => __DIR__ . '/packages/plugin-manager/src/',
+            'CnA\\Devtools\\' => __DIR__ . '/packages/devtools/src/',
+            'CnA\\Admin\\' => __DIR__ . '/packages/admin/src/',
             'App\\' => __DIR__ . '/skeleton/app/',
         ];
 
@@ -108,6 +114,22 @@ $console->register(new \CnA\Console\Commands\FrontendStatusCommand($app));
 $console->register(new \CnA\Console\Commands\FrontendClearCommand($app));
 $console->register(new \CnA\Console\Commands\MakeUiModuleCommand($app));
 $console->register(new \CnA\Console\Commands\MakeComponentCommand($app));
+$console->register(new \CnA\Console\Commands\WorkflowListCommand($app));
+$console->register(new \CnA\Console\Commands\WorkflowRunCommand($app));
+$console->register(new \CnA\Console\Commands\WorkflowInspectCommand($app));
+$console->register(new \CnA\Console\Commands\SecurityAuditCommand($app));
+$console->register(new \CnA\Console\Commands\SecurityDependenciesCommand($app));
+$console->register(new \CnA\Console\Commands\SecurityHeadersCommand($app));
+$console->register(new \CnA\Console\Commands\SecurityPermissionsCommand($app));
+$console->register(new \CnA\Console\Commands\SecurityReportCommand($app));
+$console->register(new \CnA\Console\Commands\HealthCheckCommand($app));
+$console->register(new \CnA\Console\Commands\EnvCheckCommand($app));
+$console->register(new \CnA\Console\Commands\ConfigShowCommand($app));
+$console->register(new \CnA\Console\Commands\DbBackupCommand($app));
+$console->register(new \CnA\Console\Commands\DbRestoreCommand($app));
+$console->register(new \CnA\Console\Commands\MakeModuleCommand($app));
+$console->register(new \CnA\Console\Commands\MakePluginCommand($app));
+$console->register(new \CnA\Console\Commands\AppInfoCommand($app));
 
 $status = $console->run($argv);
 exit($status);

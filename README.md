@@ -3,8 +3,8 @@
 </p>
 
 <p align="center">
-  <strong>The Contract-Driven PHP Framework • Version 2.0</strong><br>
-  <em>Secure • Scalable • Intelligent • Modern Frontend Engine</em>
+  <strong>The Contract-Driven PHP Framework • Version 2.1</strong><br>
+  <em>The Complete Modular Application Platform • Secure • Scalable • Intelligent</em>
 </p>
 
 <p align="center">
@@ -20,9 +20,9 @@
 
 ---
 
-## 🌟 About CnA Framework (Version 2.0)
+## 🌟 About CnA Framework (Version 2.1)
 
-**CnA Framework** is a contract-driven, high-performance PHP 8.4+ modular monorepo framework built for mission-critical web applications, high-throughput APIs, modern interactive user interfaces, and background worker systems. It pairs the beloved developer ergonomics of Laravel with strict architectural boundaries, native OWASP ASVS Level 2 defenses, zero-leak dependency injection, built-in $O(1)$ eager loading with N+1 query prevention, a provider-independent AI subsystem, and a **first-class Vite-powered Frontend Engine**.
+**CnA Framework** is a contract-driven, high-performance PHP 8.4+ **Complete Modular Application Platform** built for mission-critical web applications, high-throughput APIs, modern interactive user interfaces, multi-tenant SaaS systems, distributed transaction workflows, and background worker daemons. It pairs the beloved developer ergonomics of Laravel with strict architectural boundaries, native OWASP ASVS Level 2 defenses, zero-leak dependency injection, built-in $O(1)$ eager loading with N+1 query prevention, a provider-independent AI subsystem, a **first-class Vite-powered Frontend Engine**, and an **Enterprise Modular Ecosystem**.
 
 ### 👨‍💻 Framework Architect & Lead Developer
 - **Author**: **Alan Shaju** (Senior Software Engineer)
@@ -63,64 +63,46 @@ php cna serve
 Open your browser and navigate to:
 👉 **[http://127.0.0.1:8000](http://127.0.0.1:8000)**
 
-Visiting this URL displays the **CnA Framework Interactive Interface (`welcome.php`)** featuring:
-- Official glowing logo and responsive dark theme UI.
-- Interactive **Architecture & Request Lifecycle Explorer**.
-- Comprehensive breakdown of all **27 Decoupled Packages**.
-- Searchable **CLI Command Reference**.
-- Interactive **Core Helper Functions Guide**.
-- **Live API Playground** allowing you to test endpoints directly from the browser!
+---
+
+## 🚀 Key Ecosystem Subsystems (Version 2.1)
+
+1. **Workflow Engine (`cna/workflow`)**:
+   - Sequential, conditional, and parallel state machines with context immutability.
+   - **Saga Pattern Compensation**: Automatic reverse-order compensation execution when any step fails.
+   - Observability: Complete step duration metrics and audit trails (`workflow:list`, `workflow:run`, `workflow:inspect`).
+
+2. **Multi-Tenancy Subsystem (`cna/multitenancy`)**:
+   - Scoped tenant isolation via `TenantInterface` and `TenantManagerInterface`.
+   - Resolution strategies: HTTP headers (`X-Tenant-ID`), subdomains, or URI paths.
+   - Zero-leak lifecycle: Automatic context clearing in `TenantMiddleware` finally blocks.
+
+3. **Feature Flags Engine (`cna/feature-flags`)**:
+   - Multi-strategy evaluation: Booleans, custom closure targeting, and CRC32-based percentage rollouts (0-100%).
+   - Global helper: `feature('flag_name', ['user_id' => 123])`.
+
+4. **Dynamic Plugin Architecture (`cna/plugin-manager`)**:
+   - Two-phase bootstrap: `register()` for container bindings and `boot()` for runtime events.
+   - Rapid scaffolding: `php cna make:plugin <name>`.
+
+5. **Telemetry & OpenTelemetry Tracing (`cna/devtools` & `cna/admin`)**:
+   - Microsecond-accurate span tracking and latency instrumentation.
+   - Transparent correlation ID propagation (`X-Correlation-ID`, `X-Trace-ID`).
+   - Admin Studio diagnostic status aggregation.
+
+6. **Extended Security Auditor (`packages/security/`)**:
+   - Deep audits for Composer dependencies, constraints, and lockfiles.
+   - OWASP ASVS HTTP security headers inspection (CSP, HSTS, X-Frame-Options, X-Content-Type-Options).
+   - Filesystem permission validation and structured JSON exports (`security:report --format=json`).
+
+7. **Vite Frontend Engine & Accessible UI (`cna/frontend` & `cna/view`)**:
+   - Dual-mode Vite support: Dev HMR loopback and production `.vite/manifest.json` reader.
+   - Server-rendered accessible UI component library (`ui.button`, `ui.alert`, `ui.badge`, `ui.card`, `ui.input`, `ui.modal`, `ui.table`).
+   - Optional React and Vue mounting adapters.
 
 ---
 
-## 🚀 Key Highlights & Architecture
-
-CnA Framework is built strictly according to enterprise software engineering standards:
-
-1. **Strict Layered Architecture**:
-   - Thin transport controllers parse/validate input, invoke application use cases, and serialize responses.
-   - Application use cases coordinate business rules and own explicit transaction boundaries via `TransactionManagerInterface`.
-   - Domain rules and repository interfaces are completely decoupled from HTTP transport and PDO infrastructure.
-
-2. **First-Class N+1 Prevention & Query Observability**:
-   - Strict mode in development/testing throws `LazyLoadingViolationException` on unexpected dynamic lazy loading.
-   - Fast $O(1)$ eager loading via `Model::with(['user', 'items'])->get()`.
-   - Built-in `QueryObserver` with normalized SQL fingerprinting, repeated relation query detection, and route/job query budgets.
-
-3. **OWASP ASVS Level 2 Baseline Security**:
-   - AEAD authenticated encryption (AES-256-GCM) with tag verification and key rotation.
-   - Argon2id password hashing by default with Bcrypt fallback.
-   - Constant-time secret/token comparisons (`hash_equals`).
-   - Automated SSRF defenses blocking private/loopback/metadata IP ranges (127.0.0.0/8, 10.0.0.0/8, 192.168.0.0/16, 169.254.169.254, ::1).
-   - Strict SQL parameter binding and dialect identifier quoting (SQLite, MySQL, PostgreSQL).
-   - Secure HTTP response headers (HSTS, CSP, X-Frame-Options, X-Content-Type-Options).
-
-4. **Provider-Independent AI Subsystem**:
-   - Pluggable provider abstraction (`AIProviderInterface`, `EmbeddingProviderInterface`, `TokenCounterInterface`).
-   - Built-in `FakeAIProvider` for deterministic, zero-external-dependency offline testing with recorded chat assertions.
-   - `PromptGuard`: Detects prompt injections and redacts sensitive tokens/secrets prior to external transmission.
-   - `CostTracker`: Enforces tenant token quotas, approved model allowlists, and usage metrics.
-   - `ToolRegistry`: Permissioned tool execution with execution schemas, timeouts, and structured audit trails.
-   - `VectorStore`: In-memory RAG vector store with cosine similarity and tenant isolation filtering.
-
-5. **First-Class Frontend Engine & Vite Integration (Version 2.0)**:
-   - **Vite Asset Pipeline**: Development HMR on loopback (`http://127.0.0.1:5173`) and fingerprinted production manifest (`.vite/manifest.json`) resolution.
-   - **Accessible UI Components**: Built-in server-rendered component catalogue (`ui.button`, `ui.alert`, `ui.badge`, `ui.card`, `ui.input`, `ui.modal`, `ui.table`) with strict HTML escaping.
-   - **Feature UI Modules**: Modular frontend architecture under `resources/modules/{name}/`.
-   - **React & Vue Adapters**: Optional declarative DOM mount helpers (`ReactAdapter::mount()`, `VueAdapter::mount()`).
-   - **Strict Path Security**: Complete protection against path traversal, symlink escapes, and unauthorized origins.
-
-6. **Turnkey CLI Experience (`php cna` or `./cna`)**:
-   - Frontend: `frontend:install`, `frontend:dev`, `frontend:build`, `frontend:status`, `frontend:clear`
-   - Generators: `make:controller`, `make:service`, `make:repository`, `make:model`, `make:migration`, `make:ui-module`, `make:component`
-   - Migrations: `migrate`, `migrate:rollback`, `migrate:refresh`, `db:status`
-   - Diagnostics: `doctor`, `route:list`, `db:profile`, `security:check`, `about`
-   - AI Diagnostics: `ai:diagnose`, `ai:providers`, `ai:usage`
-   - Operations: `serve`, `cache:clear`, `queue:work`, `queue:retry`, `queue:flush`, `schedule:run`, `test`, `benchmark`
-
----
-
-## 📂 Repository & Monorepo Structure
+## 📂 Monorepo Structure (37 Decoupled Packages)
 
 ```
 cna-framework/
@@ -131,12 +113,12 @@ cna-framework/
 ├── package.json               # Frontend dependencies & scripts
 ├── composer.json              # Monorepo composer configuration
 ├── .env.example               # Environment template
-├── packages/                  # 31 Modular Packages (independent composer manifests)
-│   ├── contracts/             # Core interfaces (Container, DB, HTTP, AI, View, Frontend, etc.)
+├── packages/                  # 37 Modular Packages
+│   ├── contracts/             # Core interfaces (Workflow, Tenancy, Features, Plugins, Telemetry, etc.)
 │   ├── core/                  # Application engine, pipeline, service providers & helpers
 │   ├── container/             # DI container with autowiring, singletons, scoped & circular detection
 │   ├── config/                # Dot-notation typed configuration & Env parser
-│   ├── console/               # CLI console bus, styling, table renderer & commands
+│   ├── console/               # CLI console bus, styling, table renderer & 35+ commands
 │   ├── http/                  # Normalized Request, Response, JsonResponse & Kernel
 │   ├── routing/               # Fluent Router, route groups, named routes, parameter constraints
 │   ├── middleware/            # Security headers, CSRF token guard, rate limiter, CORS
@@ -147,7 +129,13 @@ cna-framework/
 │   ├── migrations/            # Schema builder, blueprints, migration runner & rollbacks
 │   ├── auth/                  # Authentication manager, guards & password hashing
 │   ├── authorization/         # Gate & RBAC policy system (deny-by-default)
-│   ├── security/              # AEAD Encrypter, CSRF manager, SSRF validator, HTML escaper
+│   ├── security/              # AEAD Encrypter, SecurityAuditor, CSRF manager, SSRF validator
+│   ├── workflow/              # Workflow engine, step orchestrator & saga compensations
+│   ├── multitenancy/          # Tenant manager, resolution strategies & isolation middleware
+│   ├── feature-flags/         # Dynamic feature manager, percentage rollouts & closures
+│   ├── plugin-manager/        # Plugin manager, filesystem discovery & lifecycle
+│   ├── devtools/              # OpenTelemetry-compatible Tracer & CorrelationMiddleware
+│   ├── admin/                 # Admin Studio telemetry reporting & metrics
 │   ├── view/                  # Server-rendered layouts, sections & accessible UI components
 │   ├── frontend/              # Vite integration, manifest reader, asset resolver & preloads
 │   ├── frontend-react/        # Optional React client bootstrapping & mount adapter
@@ -163,41 +151,56 @@ cna-framework/
 │   ├── logging/               # Structured logger with secret redactor & correlation IDs
 │   ├── monitoring/            # QueryObserver, query budgets & N+1 detection engine
 │   └── testing/               # TestCase, TestResponse, TestRunner & assertions
-├── skeleton/                  # Reference application starter (like laravel/laravel)
-│   ├── app/
-│   │   ├── Http/Controllers/  # Thin transport controllers
-│   │   ├── Application/       # Use cases & Commands (e.g. CreateOrderService)
-│   │   ├── Domain/            # Entities & Repository Interfaces (Order, User)
-│   │   ├── Infrastructure/    # SQL Repository implementations
-│   │   └── Models/            # ORM Models (User, Order, OrderItem)
+├── skeleton/                  # Reference application starter
+│   ├── app/                   # Controllers, Use cases, Domain models & Infrastructure
 │   ├── bootstrap/app.php      # Application bootstrapping & provider registration
 │   ├── config/                # Environment-specific configuration files
-│   ├── database/migrations/   # Versioned database migrations
-│   ├── public/index.php       # HTTP web entrypoint
-│   └── routes/                # api.php and web.php route definitions
-├── benchmarks/                # Micro-benchmarks & baseline metrics
-├── docs/adr/                  # Architecture Decision Records (ADRs 0001 - 0008)
-└── tests/                     # Unit, Feature, and Architecture test suite
+│   └── public/index.php       # HTTP web entrypoint
+├── docs/adr/                  # Architecture Decision Records (ADRs 0001 - 0010)
+└── tests/                     # 91 automated tests passing with zero dependencies
 ```
 
 ---
 
-## 🛠️ Unified CLI Reference
+## 🛠️ Complete CLI Command Reference
 
 Run commands using `php cna <command>`:
 
-| Command | Category | Description |
+| Command | Namespace | Description |
 |---|---|---|
-| `serve` | General | Start the local development web server with URL rewriting |
-| `doctor` | General | Verify runtime health, extensions, storage writability, and .env |
-| `security:check` | Security | Audit configuration against OWASP ASVS baseline security rules |
-| `test` | General | Run the automated test suite (34 passing tests) |
-| `benchmark` | General | Run framework micro-benchmarks for DI, routing, and ORM |
-| `route:list` | Routing | Display all registered HTTP routes, methods, names, and actions |
-| `db:status` | Database | Show status and batch of each database migration |
+| `app:info` | App | Display platform, environment, and ecosystem architecture status |
+| `health:check` | Health | Perform operational health check on runtime, memory, DB, and cache |
+| `env:check` | Env | Verify environment variables against `.env.example` definitions |
+| `config:show` | Config | Display configuration values with sensitive data masked |
+| `db:backup` | Database | Create a database backup snapshot |
+| `db:restore` | Database | Restore a database snapshot from backup file |
+| `make:module` | Make | Scaffold a new modular architecture domain (Controllers, Models, Services, Routes) |
+| `make:plugin` | Make | Scaffold a new modular plugin package (plugin.php, Provider, manifest) |
+| `workflow:list` | Workflow | List all registered workflow definitions |
+| `workflow:run` | Workflow | Execute a registered workflow with optional context payload |
+| `workflow:inspect`| Workflow | Inspect workflow steps, states, conditions, and compensation logic |
+| `security:audit` | Security | Perform deep security audit across dependencies, headers, and permissions |
+| `security:dependencies` | Security | Audit Composer dependencies, constraints, and lockfile integrity |
+| `security:headers` | Security | Audit HTTP security headers against OWASP ASVS recommendations |
+| `security:permissions` | Security | Audit filesystem permissions on sensitive paths and directories |
+| `security:report` | Security | Generate full security audit report in structured JSON or text format |
+| `security:check` | Security | Audit project configuration against OWASP ASVS baseline security rules |
+| `frontend:install`| Frontend | Scaffold baseline Vite configuration, package.json, and asset dirs |
+| `frontend:dev` | Frontend | Inspect and guide the Vite development server on loopback |
+| `frontend:build` | Frontend | Verify production Vite build artifacts and manifest |
+| `frontend:status`| Frontend | Report frontend engine status, Vite reachability, and manifest |
+| `frontend:clear` | Frontend | Clear cached frontend manifest and preloaded asset metadata |
+| `make:ui-module` | Make | Scaffold a new frontend UI feature module with TypeScript and styles |
+| `make:component` | Make | Generate a server-rendered PHP UI component or view template |
+| `make:controller`| Make | Scaffold a thin transport controller |
+| `make:service` | Make | Scaffold an application use case service |
+| `make:repository`| Make | Scaffold a domain repository interface and SQL implementation |
+| `make:model` | Make | Scaffold an ORM model class |
+| `make:migration` | Make | Create a new versioned database migration |
 | `migrate` | Database | Execute pending database migrations |
 | `migrate:rollback`| Database | Rollback the last migration batch |
-| `migrate:refresh` | Database | Rollback all migrations and run them again |
+| `migrate:refresh`| Database | Rollback all migrations and run them again |
+| `db:status` | Database | Show status and batch of each database migration |
 | `db:profile` | Database | Display query logs and detect potential N+1 query patterns |
 | `db:seed` | Database | Seed the database with records |
 | `cache:clear` | Cache | Flush the application cache |
@@ -209,22 +212,26 @@ Run commands using `php cna <command>`:
 | `ai:usage` | AI | Report token consumption and tenant quota usage |
 | `ai:providers` | AI | List configured AI providers and model allowlist |
 | `ai:diagnose` | AI | Run diagnostic connectivity & PromptGuard injection checks |
-| `key:generate` | Security | Generate and set the 256-bit AEAD application encryption key |
-| `make:controller` | Generator | Scaffold a thin transport controller |
-| `make:service` | Generator | Scaffold an application use case service |
-| `make:repository` | Generator | Scaffold a domain repository interface and SQL implementation |
-| `make:model` | Generator | Scaffold an ORM model class |
-| `make:migration` | Generator | Create a new versioned database migration |
+| `doctor` | General | Verify runtime health, extensions, storage writability, and advisories |
+| `serve` | General | Start the local development web server with URL rewriting |
+| `test` | General | Run the automated test suite (**91 passing tests**) |
+| `benchmark` | General | Run framework micro-benchmarks for DI, routing, and ORM |
 
 ---
 
-## 🧪 Testing & Micro-Benchmarks
+## 🧪 Testing & Validation
 
-Run the test suite:
+Run the framework test suite:
 ```bash
 php cna test
 ```
-All **34 automated tests** pass with zero external dependencies.
+**91 automated tests** pass with zero external runtime dependencies.
+
+Run the skeleton architecture tests:
+```bash
+php cna test skeleton/tests
+```
+**41 skeleton tests** pass.
 
 Run micro-benchmarks:
 ```bash

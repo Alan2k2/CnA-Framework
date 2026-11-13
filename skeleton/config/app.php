@@ -19,5 +19,11 @@ return [
         \CnA\Core\Providers\RoutingServiceProvider::class,
         \CnA\View\ViewServiceProvider::class,
         \CnA\Frontend\FrontendServiceProvider::class,
+        \CnA\Workflow\WorkflowServiceProvider::class,
+        \CnA\Tenancy\TenantServiceProvider::class,
+        \CnA\Features\FeatureFlagServiceProvider::class,
+        \CnA\Plugins\PluginServiceProvider::class,
+        \CnA\Devtools\DevtoolsServiceProvider::class,
+        \CnA\Admin\AdminServiceProvider::class,
     ],
 ];

@@ -1,0 +1,15 @@
+{
+    "name": "cna/devtools",
+    "description": "Developer tools, OpenTelemetry-compatible tracing, and diagnostics for CnA Framework",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "CnA\\Devtools\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=8.4",
+        "cna/contracts": "*"
+    }
+}

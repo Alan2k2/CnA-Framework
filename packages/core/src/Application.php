@@ -13,7 +13,7 @@ use CnA\Contracts\Core\ServiceProviderInterface;
 
 class Application extends Container implements ApplicationInterface
 {
-    public const VERSION = '2.0.0';
+    public const VERSION = '2.1.0';
 
     protected string $basePath;
     protected bool $booted = false;

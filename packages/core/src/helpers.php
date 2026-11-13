@@ -91,3 +91,42 @@ if (!function_exists('bcrypt')) {
         return password_hash($value, PASSWORD_BCRYPT, ['cost' => $cost]);
     }
 }
+
+if (!function_exists('feature')) {
+    function feature(string $name, array $context = []): bool
+    {
+        $container = Container::getInstance();
+        if ($container->has(\CnA\Contracts\Features\FeatureFlagManagerInterface::class)) {
+            /** @var \CnA\Contracts\Features\FeatureFlagManagerInterface $manager */
+            $manager = $container->make(\CnA\Contracts\Features\FeatureFlagManagerInterface::class);
+            return $manager->active($name, $context);
+        }
+        return false;
+    }
+}
+
+if (!function_exists('tenant')) {
+    function tenant(): ?\CnA\Contracts\Tenancy\TenantInterface
+    {
+        $container = Container::getInstance();
+        if ($container->has(\CnA\Contracts\Tenancy\TenantManagerInterface::class)) {
+            /** @var \CnA\Contracts\Tenancy\TenantManagerInterface $manager */
+            $manager = $container->make(\CnA\Contracts\Tenancy\TenantManagerInterface::class);
+            return $manager->current();
+        }
+        return null;
+    }
+}
+
+if (!function_exists('workflow')) {
+    function workflow(?string $name = null): mixed
+    {
+        $container = Container::getInstance();
+        if ($container->has(\CnA\Contracts\Workflow\WorkflowEngineInterface::class)) {
+            /** @var \CnA\Contracts\Workflow\WorkflowEngineInterface $engine */
+            $engine = $container->make(\CnA\Contracts\Workflow\WorkflowEngineInterface::class);
+            return $name !== null ? $engine->get($name) : $engine;
+        }
+        return null;
+    }
+}
