@@ -42,3 +42,4 @@ class SecurityAuditorTest extends TestCase
         $this->assertEquals('PASS', $result['status']);
     }
 }
+

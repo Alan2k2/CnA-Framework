@@ -7,3 +7,4 @@ return [
 
     'auto_discover' => env('PLUGINS_AUTO_DISCOVER', true),
 ];
+

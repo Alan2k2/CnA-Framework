@@ -71,3 +71,4 @@ class EnvCheckCommand extends Command
         return Command::SUCCESS;
     }
 }
+

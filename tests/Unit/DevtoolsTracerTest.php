@@ -53,3 +53,4 @@ class DevtoolsTracerTest extends TestCase
         $this->assertEquals('custom-corr-777', $response->getHeaderLine('X-Correlation-ID'));
     }
 }
+

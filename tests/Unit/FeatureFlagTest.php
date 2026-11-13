@@ -48,3 +48,4 @@ class FeatureFlagTest extends TestCase
         $this->assertFalse($manager->isEnabled('always_off', ['user_id' => 123]));
     }
 }
+

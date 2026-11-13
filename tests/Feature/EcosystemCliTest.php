@@ -127,3 +127,4 @@ class EcosystemCliTest extends TestCase
         $this->assertEquals(Command::SUCCESS, $status);
     }
 }
+

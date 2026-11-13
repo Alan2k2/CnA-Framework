@@ -33,3 +33,4 @@ class SecurityHeadersCommand extends Command
         return Command::SUCCESS;
     }
 }
+

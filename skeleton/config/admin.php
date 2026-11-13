@@ -7,3 +7,4 @@ return [
 
     'prefix' => env('ADMIN_STUDIO_PREFIX', 'admin'),
 ];
+

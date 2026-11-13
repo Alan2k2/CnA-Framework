@@ -55,3 +55,4 @@ class SecurityAuditCommand extends Command
         return Command::SUCCESS;
     }
 }
+

@@ -26,3 +26,4 @@ interface WorkflowStepInterface
      */
     public function compensate(array $context): void;
 }
+

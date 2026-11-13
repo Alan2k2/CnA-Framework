@@ -44,3 +44,4 @@ class DbRestoreCommand extends Command
         return Command::SUCCESS;
     }
 }
+

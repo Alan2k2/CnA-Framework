@@ -37,3 +37,4 @@ class AppInfoCommand extends Command
         return Command::SUCCESS;
     }
 }
+

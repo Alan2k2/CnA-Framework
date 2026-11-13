@@ -35,3 +35,4 @@ interface WorkflowEngineInterface
      */
     public function listWorkflows(): array;
 }
+

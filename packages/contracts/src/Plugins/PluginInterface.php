@@ -33,3 +33,4 @@ interface PluginInterface
      */
     public function boot(ApplicationInterface $app): void;
 }
+

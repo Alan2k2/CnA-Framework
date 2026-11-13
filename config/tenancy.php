@@ -20,3 +20,4 @@ return [
         // 'tenant-1' => ['name' => 'Demo Tenant', 'db' => 'tenant_1'],
     ],
 ];
+

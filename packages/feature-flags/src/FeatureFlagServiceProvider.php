@@ -24,3 +24,4 @@ class FeatureFlagServiceProvider extends ServiceProvider
     {
     }
 }
+

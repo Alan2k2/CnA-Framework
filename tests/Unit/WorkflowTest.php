@@ -82,3 +82,4 @@ class WorkflowTest extends TestCase
         $this->assertTrue($compensated, 'Saga compensation callback must be executed on step failure');
     }
 }
+

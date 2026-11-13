@@ -64,3 +64,4 @@ class Tracer implements TracerInterface
         return $this->spans;
     }
 }
+

@@ -53,3 +53,4 @@ class PluginManagerTest extends TestCase
         $this->assertEquals(1, count($manager->all()));
     }
 }
+

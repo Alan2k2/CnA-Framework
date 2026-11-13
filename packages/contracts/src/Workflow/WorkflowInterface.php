@@ -18,3 +18,4 @@ interface WorkflowInterface
      */
     public function getSteps(): array;
 }
+

@@ -717,6 +717,7 @@
             <li><a href="#commands">Commands</a></li>
             <li><a href="#helpers">Functions</a></li>
             <li><a href="#playground">Live API Tester</a></li>
+            <li><a href="/admin" style="color: var(--primary); font-weight: 700;">Admin Studio</a></li>
         </ul>
         <div class="nav-right">
             <!-- Framework Developer Badge -->

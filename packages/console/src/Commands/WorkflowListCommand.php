@@ -42,3 +42,4 @@ class WorkflowListCommand extends Command
         return Command::SUCCESS;
     }
 }
+

@@ -30,3 +30,4 @@ class SecurityDependenciesCommand extends Command
         return $results['status'] === 'FAIL' ? Command::FAILURE : Command::SUCCESS;
     }
 }
+

@@ -30,3 +30,4 @@ interface FeatureFlagManagerInterface
      */
     public function all(): array;
 }
+

@@ -33,3 +33,4 @@ interface PluginManagerInterface
      */
     public function discover(): void;
 }
+

@@ -36,3 +36,4 @@ abstract class BasePlugin implements PluginInterface
     {
     }
 }
+

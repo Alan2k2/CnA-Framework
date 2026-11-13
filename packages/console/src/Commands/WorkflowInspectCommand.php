@@ -54,3 +54,4 @@ class WorkflowInspectCommand extends Command
         return Command::SUCCESS;
     }
 }
+

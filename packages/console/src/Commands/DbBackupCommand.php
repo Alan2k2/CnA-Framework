@@ -51,3 +51,4 @@ class DbBackupCommand extends Command
         return Command::SUCCESS;
     }
 }
+

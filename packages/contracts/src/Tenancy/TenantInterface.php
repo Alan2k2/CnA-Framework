@@ -26,3 +26,4 @@ interface TenantInterface
      */
     public function getDatabaseConnection(): ?string;
 }
+

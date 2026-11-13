@@ -15,3 +15,4 @@ return [
         'beta_api' => env('FEATURE_BETA_API', false),
     ],
 ];
+

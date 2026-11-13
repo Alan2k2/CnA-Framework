@@ -36,3 +36,4 @@ class TenantServiceProvider extends ServiceProvider
     {
     }
 }
+

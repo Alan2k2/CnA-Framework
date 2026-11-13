@@ -89,3 +89,4 @@ class PluginManager implements PluginManagerInterface
         }
     }
 }
+

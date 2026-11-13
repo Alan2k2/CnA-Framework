@@ -201,3 +201,4 @@ class SecurityAuditor
         return (string) json_encode($this->runFullAudit(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     }
 }
+

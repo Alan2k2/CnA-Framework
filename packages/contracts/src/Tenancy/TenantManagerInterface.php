@@ -31,3 +31,4 @@ interface TenantManagerInterface
      */
     public function clear(): void;
 }
+
