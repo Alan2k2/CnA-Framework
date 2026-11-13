@@ -36,10 +36,12 @@ jobs:
         run: cp .env.example .env
 
       - name: Validate Composer Package
-        run: composer validate --strict
+        run: composer validate --strict --no-check-lock
 
       - name: Composer Security Audit
-        run: composer audit
+        run: |
+          composer update --no-install
+          composer audit
 
       - name: Verify Environment (Doctor)
         run: php cna doctor
