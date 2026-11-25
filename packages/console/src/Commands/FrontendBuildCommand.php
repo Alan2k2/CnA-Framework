@@ -37,11 +37,43 @@ class FrontendBuildCommand extends Command
             $this->info("Manifest verified successfully at [{$targetManifest}].");
             $this->line("Indexed entries: " . count($manifest));
 
+            $buildDir = dirname($targetManifest);
+            if (basename($buildDir) === '.vite') {
+                $buildDir = dirname($buildDir);
+            }
+
+            $missingFiles = [];
             foreach ($manifest as $key => $entry) {
                 $isEntry = !empty($entry['isEntry']) ? ' (Entry)' : '';
                 $this->line("  - \033[32m{$key}\033[0m -> {$entry['file']}{$isEntry}");
+
+                $file = $entry['file'] ?? null;
+                if ($file) {
+                    $diskPath = $buildDir . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $file);
+                    if (!file_exists($diskPath)) {
+                        $missingFiles[] = $file;
+                    }
+                }
+
+                if (!empty($entry['css'])) {
+                    foreach ($entry['css'] as $cssFile) {
+                        $diskPath = $buildDir . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $cssFile);
+                        if (!file_exists($diskPath)) {
+                            $missingFiles[] = $cssFile;
+                        }
+                    }
+                }
             }
 
+            if (!empty($missingFiles)) {
+                $this->error("\nManifest validation failed: " . count($missingFiles) . " referenced output file(s) are missing from disk:");
+                foreach (array_slice($missingFiles, 0, 10) as $missing) {
+                    $this->line("  - \033[31m{$missing}\033[0m");
+                }
+                return Command::FAILURE;
+            }
+
+            $this->info("\nAll manifest output artifacts verified on disk.");
             return Command::SUCCESS;
         } catch (\Throwable $e) {
             $this->error("Manifest validation failed: " . $e->getMessage());

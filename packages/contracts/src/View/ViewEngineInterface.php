@@ -39,5 +39,13 @@ interface ViewEngineInterface
      * @return mixed
      */
     public function getShared(?string $key = null): mixed;
+
+    /**
+     * Reset request-scoped rendering state (sections, layouts, active stacks).
+     * Ensures clean lifecycle isolation in long-running processes (Swoole, RoadRunner, FrankenPHP).
+     *
+     * @return void
+     */
+    public function reset(): void;
 }
 

@@ -1,0 +1,1 @@
+function n(){const e=document.querySelector('meta[name="csrf-token"]');return e?e.content:null}console.log("⚡ CnA Frontend Engine v2.0 (Vite Asset Pipeline) Active");document.addEventListener("DOMContentLoaded",()=>{n()&&console.log("🔒 CSRF Protection Token synced with client")});

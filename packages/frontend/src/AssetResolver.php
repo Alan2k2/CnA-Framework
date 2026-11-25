@@ -97,7 +97,7 @@ class AssetResolver implements AssetResolverInterface
 
             $importRecord = $this->manifest->get($importKey);
             if ($importRecord === null) {
-                continue;
+                throw new RuntimeException("Referenced manifest import [{$importKey}] could not be resolved from manifest.");
             }
 
             $this->assertWithinBuildRoot($importRecord['file']);
@@ -135,8 +135,12 @@ class AssetResolver implements AssetResolverInterface
         if (file_exists($fullPath)) {
             $realTarget = realpath($fullPath);
             $realRoot = realpath($this->buildDirectory);
-            if ($realTarget !== false && $realRoot !== false && !str_starts_with($realTarget, $realRoot)) {
-                throw new InvalidArgumentException("Symlink escape detected: asset [{$relativePath}] escapes build root.");
+            if ($realTarget !== false && $realRoot !== false) {
+                $realRootDir = rtrim($realRoot, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+                $realTargetDir = is_dir($realTarget) ? rtrim($realTarget, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR : $realTarget;
+                if (!str_starts_with($realTargetDir, $realRootDir) && $realTarget !== $realRoot) {
+                    throw new InvalidArgumentException("Symlink escape detected: asset [{$relativePath}] escapes build root.");
+                }
             }
         }
     }

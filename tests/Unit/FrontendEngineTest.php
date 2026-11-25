@@ -232,5 +232,69 @@ class FrontendEngineTest extends TestCase
         $this->assertTrue(str_contains($mount, 'data-cna-vue-component="UserAnalytics"'));
         $this->assertTrue(str_contains($mount, '7d'));
     }
+
+    public function testAssetManagerDeduplicatesViteClientInDevMode(): void
+    {
+        $devServer = new DevServer('http://127.0.0.1:5173');
+        $reader = new ManifestReader($this->manifestFile);
+        $resolver = new AssetResolver($reader, $this->tempDir, '/build/', ['app' => 'resources/js/app.ts']);
+        $preloads = new PreloadManager();
+        $renderer = new AssetTagRenderer();
+
+        $manager = new AssetManager($devServer, $resolver, $preloads, $renderer, ['app' => 'resources/js/app.ts'], true);
+
+        // First call
+        $tags1 = $manager->assets('app');
+        $this->assertTrue(str_contains($tags1, '@vite/client'));
+
+        // Second call on same request should NOT duplicate @vite/client
+        $tags2 = $manager->assets('app');
+        $this->assertFalse(str_contains($tags2, '@vite/client'), 'Subsequent assets() calls must not duplicate @vite/client');
+    }
+
+    public function testAssetManagerViteRecommendedPreloadOrdering(): void
+    {
+        $devServer = new DevServer('http://127.0.0.1:5173');
+        $reader = new ManifestReader($this->manifestFile);
+        $resolver = new AssetResolver($reader, $this->tempDir, '/build/', ['app' => 'resources/js/app.ts']);
+        $preloads = new PreloadManager();
+        $renderer = new AssetTagRenderer();
+
+        $manager = new AssetManager($devServer, $resolver, $preloads, $renderer, ['app' => 'resources/js/app.ts'], false);
+
+        $tags = $manager->assets('app');
+        $cssPos = strpos($tags, '<link rel="stylesheet"');
+        $scriptPos = strpos($tags, '<script type="module"');
+        $preloadPos = strpos($tags, '<link rel="modulepreload"');
+
+        $this->assertTrue($cssPos !== false, 'CSS tag should exist');
+        $this->assertTrue($scriptPos !== false, 'Script tag should exist');
+        $this->assertTrue($preloadPos !== false, 'Preload tag should exist');
+
+        // Vite backend integration order: CSS first, then entry script, then modulepreload
+        $this->assertTrue($cssPos < $scriptPos, 'CSS must be rendered before script');
+        $this->assertTrue($scriptPos < $preloadPos, 'Entry script must be rendered before modulepreloads');
+    }
+
+    public function testManifestReaderRejectsMalformedSchema(): void
+    {
+        $badManifestFile = $this->tempDir . '/.vite/bad_manifest.json';
+        file_put_contents($badManifestFile, json_encode([
+            'bad_entry' => [
+                'file' => 'valid.js',
+                'css' => ['../escape.css'],
+            ],
+        ]));
+
+        $reader = new ManifestReader($badManifestFile);
+        $caught = false;
+        try {
+            $reader->load();
+        } catch (RuntimeException $e) {
+            $caught = true;
+            $this->assertTrue(str_contains($e->getMessage(), 'invalid CSS path'));
+        }
+        $this->assertTrue($caught, 'ManifestReader must reject traversal in manifest CSS paths');
+    }
 }
 

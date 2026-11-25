@@ -10,6 +10,8 @@ use InvalidArgumentException;
 class DevServer implements DevServerResolverInterface
 {
     protected ?bool $isRunningCache = null;
+    protected ?int $cacheTimestamp = null;
+    protected int $cacheTtl = 2; // seconds cache to detect runtime changes in long-running processes
 
     /**
      * @param string $url Base URL of the Vite dev server (e.g. http://127.0.0.1:5173)
@@ -53,9 +55,10 @@ class DevServer implements DevServerResolverInterface
         return in_array($origin, $this->allowedOrigins, true);
     }
 
-    public function isRunning(): bool
+    public function isRunning(bool $forceRefresh = false): bool
     {
-        if ($this->isRunningCache !== null) {
+        $now = time();
+        if (!$forceRefresh && $this->isRunningCache !== null && $this->cacheTimestamp !== null && ($now - $this->cacheTimestamp) < $this->cacheTtl) {
             return $this->isRunningCache;
         }
 
@@ -67,16 +70,25 @@ class DevServer implements DevServerResolverInterface
         if ($fp) {
             fclose($fp);
             $this->isRunningCache = true;
+            $this->cacheTimestamp = $now;
             return true;
         }
 
         $this->isRunningCache = false;
+        $this->cacheTimestamp = $now;
         return false;
+    }
+
+    public function clearCache(): void
+    {
+        $this->isRunningCache = null;
+        $this->cacheTimestamp = null;
     }
 
     public function setRunning(bool $status): self
     {
         $this->isRunningCache = $status;
+        $this->cacheTimestamp = time();
         return $this;
     }
 

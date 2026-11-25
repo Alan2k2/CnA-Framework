@@ -19,7 +19,14 @@ class MakeUiModuleCommand extends Command
             return Command::INVALID;
         }
 
-        $moduleName = strtolower(trim($name));
+        // Validate safe identifier format to prevent path traversal and syntax errors
+        if (!preg_match('/^[a-zA-Z][a-zA-Z0-9_\-]*$/', $name)) {
+            $this->error("Invalid UI module name [{$name}]. Module names must start with a letter and contain only alphanumeric characters, dashes, or underscores.");
+            return Command::INVALID;
+        }
+
+        $moduleName = strtolower(str_replace('_', '-', $name));
+        $pascalName = str_replace(' ', '', ucwords(str_replace(['-', '_'], ' ', $name)));
         $moduleDir = $this->app->basePath('resources/modules/' . $moduleName);
 
         if (is_dir($moduleDir)) {
@@ -34,12 +41,12 @@ class MakeUiModuleCommand extends Command
 // CnA UI Module: {$moduleName}
 import './{$moduleName}.css';
 
-export interface {$moduleName}Config {
+export interface {$pascalName}Config {
     endpoint?: string;
     mountId?: string;
 }
 
-export function init{$moduleName}(config: {$moduleName}Config = {}): void {
+export function init{$pascalName}(config: {$pascalName}Config = {}): void {
     const mountId = config.mountId || 'cna-{$moduleName}';
     const container = document.getElementById(mountId);
     if (!container) {
@@ -53,7 +60,7 @@ export function init{$moduleName}(config: {$moduleName}Config = {}): void {
 // Auto-boot if container is present on page
 document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('cna-{$moduleName}')) {
-        init{$moduleName}();
+        init{$pascalName}();
     }
 });
 TS;

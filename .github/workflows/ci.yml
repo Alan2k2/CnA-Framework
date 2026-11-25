@@ -59,5 +59,46 @@ jobs:
       - name: Run Skeleton Architecture Tests
         run: php cna test skeleton/tests
 
+      - name: Setup Node.js Runtime for Frontend Manifest Verification
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Compile Frontend Production Artifacts
+        run: |
+          npm ci
+          npm run build
+
+      - name: Verify Frontend Build & Manifest
+        run: php cna frontend:build
+
       - name: Run Micro-Benchmarks
         run: php cna benchmark
+
+  frontend:
+    name: Frontend Build & Type Check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js Runtime
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: TypeScript Type-Check
+        run: npm run type-check
+
+      - name: NPM Security Audit
+        run: npm audit --audit-level=high
+
+      - name: Production Vite Build
+        run: npm run build

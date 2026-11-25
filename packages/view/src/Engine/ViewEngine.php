@@ -23,6 +23,7 @@ class ViewEngine implements ViewEngineInterface
 
     protected ?string $currentSection = null;
     protected ?string $currentLayout = null;
+    protected int $renderDepth = 0;
 
     protected ?ComponentRenderer $componentRenderer = null;
 
@@ -81,37 +82,55 @@ class ViewEngine implements ViewEngineInterface
         return $this->findViewPath($view) !== null;
     }
 
+    public function reset(): void
+    {
+        $this->sections = [];
+        $this->currentSection = null;
+        $this->currentLayout = null;
+        $this->renderDepth = 0;
+    }
+
     public function render(string $view, array $data = []): string
     {
-        $viewPath = $this->findViewPath($view);
-        if ($viewPath === null) {
-            $searched = [];
-            $rel = str_replace('.', DIRECTORY_SEPARATOR, $view) . '.php';
-            foreach ($this->paths as $p) {
-                $searched[] = $p . DIRECTORY_SEPARATOR . $rel;
-            }
-            throw new ViewNotFoundException($view, $searched);
-        }
+        $isRootRender = ($this->renderDepth === 0);
+        $this->renderDepth++;
 
-        $mergedData = array_merge($this->shared, $data);
-
-        // Render template in isolated closure
-        $content = $this->renderFile($viewPath, $mergedData);
-
-        // If a layout was declared during render, wrap it
-        if ($this->currentLayout !== null) {
-            $layout = $this->currentLayout;
-            $this->currentLayout = null;
-
-            // Store default content section if not already set
-            if (!isset($this->sections['content'])) {
-                $this->sections['content'] = $content;
+        try {
+            $viewPath = $this->findViewPath($view);
+            if ($viewPath === null) {
+                $searched = [];
+                $rel = str_replace('.', DIRECTORY_SEPARATOR, $view) . '.php';
+                foreach ($this->paths as $p) {
+                    $searched[] = $p . DIRECTORY_SEPARATOR . $rel;
+                }
+                throw new ViewNotFoundException($view, $searched);
             }
 
-            return $this->render($layout, $mergedData);
-        }
+            $mergedData = array_merge($this->shared, $data);
 
-        return $content;
+            // Render template in isolated closure
+            $content = $this->renderFile($viewPath, $mergedData);
+
+            // If a layout was declared during render, wrap it
+            if ($this->currentLayout !== null) {
+                $layout = $this->currentLayout;
+                $this->currentLayout = null;
+
+                // Store default content section if not already set
+                if (!isset($this->sections['content'])) {
+                    $this->sections['content'] = $content;
+                }
+
+                return $this->render($layout, $mergedData);
+            }
+
+            return $content;
+        } finally {
+            $this->renderDepth--;
+            if ($isRootRender) {
+                $this->reset();
+            }
+        }
     }
 
     protected function renderFile(string $filePath, array $data): string
@@ -167,13 +186,43 @@ class ViewEngine implements ViewEngineInterface
 
     protected function findViewPath(string $view): ?string
     {
-        $normalized = str_replace('.', DIRECTORY_SEPARATOR, $view) . '.php';
+        // Enforce safe view naming and prevent path traversal
+        if (
+            str_contains($view, '..') ||
+            str_contains($view, "\0") ||
+            str_starts_with($view, '/') ||
+            str_starts_with($view, '\\') ||
+            preg_match('/^[a-zA-Z]:/', $view) ||
+            preg_match('/[^a-zA-Z0-9_\-\.\/\\\\]/', $view)
+        ) {
+            throw new \InvalidArgumentException("Invalid view identifier [{$view}]. View names must not contain path traversal or forbidden characters.");
+        }
+
+        $normalized = str_replace(['.', '/'], DIRECTORY_SEPARATOR, $view) . '.php';
 
         foreach ($this->paths as $base) {
-            $candidate = $base . DIRECTORY_SEPARATOR . $normalized;
-            if (file_exists($candidate) && is_file($candidate)) {
-                return $candidate;
+            $realBase = realpath($base);
+            if ($realBase === false) {
+                continue;
             }
+
+            $candidate = $base . DIRECTORY_SEPARATOR . $normalized;
+            if (!file_exists($candidate) || !is_file($candidate)) {
+                continue;
+            }
+
+            $realCandidate = realpath($candidate);
+            if ($realCandidate === false) {
+                continue;
+            }
+
+            // Enforce directory separator boundary to prevent sibling directory prefix collisions
+            $realBaseDir = rtrim($realBase, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+            if (str_starts_with($realCandidate, $realBaseDir)) {
+                return $realCandidate;
+            }
+
+            throw new \InvalidArgumentException("Security exception: View [{$view}] escapes approved view directory.");
         }
 
         return null;

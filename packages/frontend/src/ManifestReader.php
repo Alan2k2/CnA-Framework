@@ -45,10 +45,47 @@ class ManifestReader implements ManifestReaderInterface
             throw new RuntimeException("Vite manifest at [{$path}] contains invalid JSON.");
         }
 
-        // Schema validation: verify entries contain required 'file' string
+        // Schema validation: verify entries contain required 'file' string and valid relative structures
         foreach ($data as $key => $entry) {
             if (!is_array($entry) || !isset($entry['file']) || !is_string($entry['file'])) {
                 throw new RuntimeException("Vite manifest entry [{$key}] is malformed. Expected 'file' property.");
+            }
+
+            if (str_contains($entry['file'], '..') || str_starts_with($entry['file'], '/') || str_starts_with($entry['file'], '\\')) {
+                throw new RuntimeException("Vite manifest entry [{$key}] contains forbidden traversal path in 'file'.");
+            }
+
+            if (isset($entry['css'])) {
+                if (!is_array($entry['css'])) {
+                    throw new RuntimeException("Vite manifest entry [{$key}] has invalid 'css' property. Expected array.");
+                }
+                foreach ($entry['css'] as $cssItem) {
+                    if (!is_string($cssItem) || str_contains($cssItem, '..')) {
+                        throw new RuntimeException("Vite manifest entry [{$key}] contains invalid CSS path.");
+                    }
+                }
+            }
+
+            if (isset($entry['imports'])) {
+                if (!is_array($entry['imports'])) {
+                    throw new RuntimeException("Vite manifest entry [{$key}] has invalid 'imports' property. Expected array.");
+                }
+                foreach ($entry['imports'] as $importItem) {
+                    if (!is_string($importItem) || str_contains($importItem, '..')) {
+                        throw new RuntimeException("Vite manifest entry [{$key}] contains invalid import key.");
+                    }
+                }
+            }
+
+            if (isset($entry['assets'])) {
+                if (!is_array($entry['assets'])) {
+                    throw new RuntimeException("Vite manifest entry [{$key}] has invalid 'assets' property. Expected array.");
+                }
+                foreach ($entry['assets'] as $assetItem) {
+                    if (!is_string($assetItem) || str_contains($assetItem, '..')) {
+                        throw new RuntimeException("Vite manifest entry [{$key}] contains invalid asset path.");
+                    }
+                }
             }
         }
 

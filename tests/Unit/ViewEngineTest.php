@@ -237,5 +237,48 @@ class ViewEngineTest extends TestCase
         $rendered = $renderer->render('ui.badge', ['label' => 'Certified', 'variant' => 'success']);
         $this->assertTrue(str_contains($rendered, 'Certified'));
     }
+
+    public function testViewEngineRequestLifecycleStateReset(): void
+    {
+        mkdir($this->tempViewDir . '/layouts', 0755, true);
+        file_put_contents($this->tempViewDir . '/layouts/base.php', '<div><?= $this->yieldSection("sidebar", "default-sidebar") ?> | <?= $this->yieldSection("content") ?></div>');
+        file_put_contents($this->tempViewDir . '/req1.php', '<?php $this->layout("layouts.base"); $this->startSection("sidebar"); echo "req1-sidebar"; $this->endSection(); ?>Req1-Body');
+        file_put_contents($this->tempViewDir . '/req2.php', '<?php $this->layout("layouts.base"); ?>Req2-Body');
+
+        $engine = new ViewEngine(null, [$this->tempViewDir]);
+
+        $res1 = $engine->render('req1');
+        $this->assertTrue(str_contains($res1, 'req1-sidebar'));
+        $this->assertTrue(str_contains($res1, 'Req1-Body'));
+
+        // Request 2 on the same singleton engine instance MUST have clean isolated state
+        $res2 = $engine->render('req2');
+        $this->assertFalse(str_contains($res2, 'req1-sidebar'), 'Sections from request 1 must not leak into request 2');
+        $this->assertTrue(str_contains($res2, 'default-sidebar'));
+        $this->assertTrue(str_contains($res2, 'Req2-Body'));
+    }
+
+    public function testViewEngineBlocksPathTraversal(): void
+    {
+        $engine = new ViewEngine(null, [$this->tempViewDir]);
+
+        $traversals = [
+            '../../etc/passwd',
+            '../secret',
+            '/etc/shadow',
+            "view\0name",
+            'view\\..\\escape',
+        ];
+
+        foreach ($traversals as $path) {
+            $caught = false;
+            try {
+                $engine->render($path);
+            } catch (\InvalidArgumentException) {
+                $caught = true;
+            }
+            $this->assertTrue($caught, "ViewEngine must reject path traversal attempt [{$path}]");
+        }
+    }
 }
 

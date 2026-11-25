@@ -14,6 +14,11 @@ class AssetManager implements AssetManagerInterface
     /** @var array<string, string> */
     protected array $entryPoints = [];
 
+    protected bool $clientScriptEmitted = false;
+
+    /** @var array<string, bool> */
+    protected array $renderedTags = [];
+
     public function __construct(
         protected DevServerResolverInterface $devServer,
         protected AssetResolverInterface $resolver,
@@ -23,6 +28,13 @@ class AssetManager implements AssetManagerInterface
         protected bool $forceDev = false
     ) {
         $this->entryPoints = $entryPoints;
+    }
+
+    public function reset(): void
+    {
+        $this->clientScriptEmitted = false;
+        $this->renderedTags = [];
+        $this->preloadManager->clear();
     }
 
     public function isDev(): bool
@@ -55,17 +67,27 @@ class AssetManager implements AssetManagerInterface
 
         // In Development Mode: Vite client + source modules
         if ($this->isDev()) {
-            // Include @vite/client once
-            $html[] = $this->tagRenderer->renderModuleScriptTag($this->devServer->getUrl('@vite/client'), $nonce);
+            // Include @vite/client once per request/lifecycle
+            if (!$this->clientScriptEmitted) {
+                $clientTag = $this->tagRenderer->renderModuleScriptTag($this->devServer->getUrl('@vite/client'), $nonce);
+                if (!isset($this->renderedTags[$clientTag])) {
+                    $html[] = $clientTag;
+                    $this->renderedTags[$clientTag] = true;
+                }
+                $this->clientScriptEmitted = true;
+            }
 
             foreach ($entryList as $entry) {
                 $sourcePath = $this->entryPoints[$entry] ?? $entry;
                 $url = $this->devServer->getUrl($sourcePath);
 
-                if (str_ends_with($sourcePath, '.css')) {
-                    $html[] = $this->tagRenderer->renderStylesheetTag($url);
-                } else {
-                    $html[] = $this->tagRenderer->renderModuleScriptTag($url, $nonce);
+                $tag = str_ends_with($sourcePath, '.css')
+                    ? $this->tagRenderer->renderStylesheetTag($url)
+                    : $this->tagRenderer->renderModuleScriptTag($url, $nonce);
+
+                if (!isset($this->renderedTags[$tag])) {
+                    $html[] = $tag;
+                    $this->renderedTags[$tag] = true;
                 }
             }
 
@@ -73,6 +95,7 @@ class AssetManager implements AssetManagerInterface
         }
 
         // In Production Mode: Resolved manifest assets with preloads & CSS
+        // Vite backend integration order: 1. Entry CSS, 2. Entry script, 3. Modulepreloads
         foreach ($entryList as $entry) {
             $resolved = $this->resolver->resolveEntry($entry);
 
@@ -86,25 +109,36 @@ class AssetManager implements AssetManagerInterface
                 $this->preloadManager->addPreload($preloadUrl);
             }
 
-            // Stylesheets first
+            // 1. Stylesheets first
             foreach ($this->preloadManager->getStylesheets() as $sheet) {
-                $html[] = $this->tagRenderer->renderStylesheetTag($sheet);
+                $tag = $this->tagRenderer->renderStylesheetTag($sheet);
+                if (!isset($this->renderedTags[$tag])) {
+                    $html[] = $tag;
+                    $this->renderedTags[$tag] = true;
+                }
             }
 
-            // Preloads next
+            // 2. Main entry script next (Vite backend integration guide order)
+            $mainTag = str_ends_with($resolved['file'], '.css')
+                ? $this->tagRenderer->renderStylesheetTag($resolved['file'])
+                : $this->tagRenderer->renderModuleScriptTag($resolved['file'], $nonce);
+
+            if (!isset($this->renderedTags[$mainTag])) {
+                $html[] = $mainTag;
+                $this->renderedTags[$mainTag] = true;
+            }
+
+            // 3. Modulepreloads
             foreach ($this->preloadManager->getPreloads() as $preload) {
-                $html[] = $this->tagRenderer->renderPreloadTag($preload);
-            }
-
-            // Main entry script
-            if (str_ends_with($resolved['file'], '.css')) {
-                $html[] = $this->tagRenderer->renderStylesheetTag($resolved['file']);
-            } else {
-                $html[] = $this->tagRenderer->renderModuleScriptTag($resolved['file'], $nonce);
+                $tag = $this->tagRenderer->renderPreloadTag($preload);
+                if (!isset($this->renderedTags[$tag])) {
+                    $html[] = $tag;
+                    $this->renderedTags[$tag] = true;
+                }
             }
         }
 
-        return implode("\n", array_unique($html));
+        return implode("\n", $html);
     }
 }
 

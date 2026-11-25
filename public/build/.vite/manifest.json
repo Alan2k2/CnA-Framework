@@ -1,35 +1,25 @@
 {
+  "resources/css/app.css": {
+    "file": "assets/app-xPn_czRL.css",
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
   "resources/js/app.ts": {
-    "file": "assets/app-cna2001.js",
+    "file": "assets/app-CeX_hSdR.js",
     "name": "app",
     "src": "resources/js/app.ts",
     "isEntry": true,
     "css": [
-      "assets/app-cna2001.css"
-    ],
-    "imports": [
-      "_vendor-cna2001.js"
+      "assets/app-xPn_czRL.css"
     ]
   },
-  "resources/css/app.css": {
-    "file": "assets/app-cna2001.css",
-    "src": "resources/css/app.css"
-  },
   "resources/modules/dashboard/index.ts": {
-    "file": "assets/dashboard-cna2001.js",
-    "name": "dashboard",
+    "file": "assets/index-CKWCxO52.js",
+    "name": "index",
     "src": "resources/modules/dashboard/index.ts",
     "isEntry": true,
     "css": [
-      "assets/dashboard-cna2001.css"
-    ],
-    "imports": [
-      "_vendor-cna2001.js"
+      "assets/index-B-8iSdV2.css"
     ]
-  },
-  "_vendor-cna2001.js": {
-    "file": "assets/vendor-cna2001.js",
-    "name": "vendor"
   }
 }
-
