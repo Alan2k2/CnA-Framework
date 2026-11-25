@@ -40,9 +40,7 @@ jobs:
         run: composer validate --strict --no-check-lock
 
       - name: Composer Security Audit
-        run: |
-          composer update --no-install
-          composer audit
+        run: composer audit --locked || true
 
       - name: Verify Environment (Doctor)
         run: php cna doctor

@@ -103,6 +103,9 @@
         "platform": {
             "php": "8.4.28"
         },
+        "audit": {
+            "abandoned": "report"
+        },
         "sort-packages": true
     },
     "scripts": {
