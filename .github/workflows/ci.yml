@@ -30,6 +30,7 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: pdo, pdo_sqlite, openssl, mbstring, json, intl, bcmath
           ini-values: session.upload_progress.enabled=0
+          tools: composer:2.11.2
           coverage: none
 
       - name: Prepare Environment File

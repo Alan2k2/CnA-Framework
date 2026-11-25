@@ -20,13 +20,21 @@ class SecurityCheckCommand extends Command
         $appEnv = (string) Env::get('APP_ENV', 'production');
         $appDebug = (bool) Env::get('APP_DEBUG', false);
 
-        // Advisory patch check: CVE-2026-109618 / CVE-2026-109619
+        // Advisory patch check: 19 Nov 2026 Security Release (GHSA-qc49-hpvq-g2w6, GHSA-658j-r8rw-q6mx)
         $isPhpPatched = version_compare(PHP_VERSION, '8.5.0', '>=')
-            ? version_compare(PHP_VERSION, '8.5.12', '>=')
-            : version_compare(PHP_VERSION, '8.4.27', '>=');
+            ? version_compare(PHP_VERSION, '8.5.13', '>=')
+            : version_compare(PHP_VERSION, '8.4.28', '>=');
 
-        // Advisory check: CVE-2026-115560
+        // Advisory check: CVE-2026-115560 & GHSA-658j-r8rw-q6mx
         $sessionUploadDisabled = ini_get('session.upload_progress.enabled') !== '1';
+
+        // Advisory check: libcurl >= 8.23.0 (CVE-2026-92392)
+        $curlVer = extension_loaded('curl') ? (curl_version()['version'] ?? 'unknown') : 'N/A';
+        $isCurlPatched = extension_loaded('curl') ? version_compare($curlVer, '8.23.0', '>=') : true;
+
+        // Advisory check: SQLite >= 3.54.1 (CVE-2026-119371..591)
+        $sqliteVer = class_exists(\SQLite3::class) ? \SQLite3::version()['versionString'] : 'N/A';
+        $isSqlitePatched = class_exists(\SQLite3::class) ? version_compare($sqliteVer, '3.54.1', '>=') : true;
 
         $checks = [
             ['Production Debug Mode Disabled', !$appDebug || $appEnv === 'local', $appDebug ? 'WARNING: APP_DEBUG is enabled!' : 'OK'],
@@ -35,14 +43,29 @@ class SecurityCheckCommand extends Command
             ['OpenSSL AEAD Support', in_array('aes-256-gcm', openssl_get_cipher_methods(), true), 'AES-256-GCM supported'],
             ['Sensitive Headers Configured', true, 'Strict-Transport-Security, X-Frame-Options, CSP enabled by default'],
             [
-                'PHP Runtime Patched (CVE-2026-109618/19)',
+                'PHP Runtime Patched (19 Nov 2026 Release)',
                 $isPhpPatched,
-                $isPhpPatched ? 'Patched against critical RCE' : 'ADVISORY: Current PHP ' . PHP_VERSION . ' is vulnerable to RCE. Upgrade runtime to >= 8.4.27 or >= 8.5.12',
+                $isPhpPatched ? 'Patched against PHP-FPM smuggling & session RCE (>= 8.4.28 / 8.5.13)' : 'ADVISORY: Current PHP ' . PHP_VERSION . ' is vulnerable to GHSA-qc49-hpvq-g2w6 / GHSA-658j-r8rw-q6mx. Upgrade runtime to >= 8.4.28 or >= 8.5.13',
             ],
             [
-                'Session Upload Progress (CVE-2026-115560)',
+                'Session Upload Progress (CVE-2026-115560 / GHSA-658j-r8rw-q6mx)',
                 $sessionUploadDisabled,
                 $sessionUploadDisabled ? 'Disabled in php.ini (Mitigated)' : 'ADVISORY: session.upload_progress.enabled is 1. Recommended: set to 0 in php.ini; do not switch serialize_handler at runtime',
+            ],
+            [
+                'libcurl Transport Security (CVE-2026-92392)',
+                $isCurlPatched,
+                $isCurlPatched ? 'libcurl ' . $curlVer . ' (>= 8.23.0)' : 'ADVISORY: libcurl ' . $curlVer . ' < 8.23.0. Upgrade system libcurl',
+            ],
+            [
+                'SQLite Version Baseline (CVE-2026-119371)',
+                $isSqlitePatched,
+                $isSqlitePatched ? 'SQLite ' . $sqliteVer . ' (>= 3.54.1)' : 'ADVISORY: SQLite ' . $sqliteVer . ' < 3.54.1. Upgrade linked SQLite library',
+            ],
+            [
+                'SSRF Canonical Scheme Validation',
+                true,
+                'Active: Rejection of mixed-case URL schemes (GHSA-f6gg-rchx-xw8j TLS bypass defense)',
             ],
             [
                 'SSRF DNS Rebinding & IPv6 Defenses',
@@ -63,8 +86,23 @@ class SecurityCheckCommand extends Command
 
         $hasFail = false;
         $rows = [];
+        $advisoryCheckPrefixes = [
+            'PHP Runtime Patched',
+            'Session Upload Progress',
+            'libcurl Transport Security',
+            'SQLite Version Baseline',
+        ];
+
         foreach ($checks as [$name, $pass, $detail]) {
-            if (!$pass && !str_starts_with($name, 'PHP Runtime Patched') && !str_starts_with($name, 'Session Upload Progress')) {
+            $isAdvisory = false;
+            foreach ($advisoryCheckPrefixes as $prefix) {
+                if (str_starts_with($name, $prefix)) {
+                    $isAdvisory = true;
+                    break;
+                }
+            }
+
+            if (!$pass && !$isAdvisory) {
                 $hasFail = true;
                 $status = "\033[31mFAIL\033[0m";
             } elseif (!$pass) {

@@ -63,7 +63,13 @@ class SsrfValidator
             throw new SecurityException("Malformed URL: {$url}");
         }
 
-        $scheme = strtolower($parsed['scheme']);
+        $rawScheme = $parsed['scheme'];
+        // Reject mixed-case or noncanonical schemes to prevent TLS transport downgrade (GHSA-f6gg-rchx-xw8j)
+        if ($rawScheme !== strtolower($rawScheme)) {
+            throw new SecurityException("Non-canonical or mixed-case URL scheme [{$rawScheme}] is rejected to prevent TLS transport downgrade.");
+        }
+
+        $scheme = $rawScheme;
         if (!in_array($scheme, $this->allowedSchemes, true)) {
             throw new SecurityException("Unsupported or dangerous URL scheme: {$scheme}");
         }

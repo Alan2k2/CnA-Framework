@@ -81,6 +81,22 @@ class SecurityAdvisoryRegressionTest extends TestCase
     }
 
     /**
+     * GHSA-f6gg-rchx-xw8j: Reject mixed-case schemes to prevent TLS transport downgrade
+     */
+    public function testSsrfRejectsMixedCaseSchemes(): void
+    {
+        $validator = new SsrfValidator();
+
+        $caught = false;
+        try {
+            $validator->validateUrl('hTtPs://93.184.216.34/webhook');
+        } catch (SecurityException) {
+            $caught = true;
+        }
+        $this->assertTrue($caught, 'Validator should reject mixed-case schemes to prevent TLS bypass.');
+    }
+
+    /**
      * CVE-2026-55766: CRLF Injection in PSR-7 / HTTP Start-Line & Headers
      */
     public function testResponseRejectsCrlfInjectionInHeaders(): void

@@ -48,7 +48,7 @@ class FrontendInstallCommand extends Command
                     'preview' => 'vite preview',
                 ],
                 'devDependencies' => [
-                    'vite' => '^5.4.11',
+                    'vite' => '^6.4.6',
                     'typescript' => '^5.6.3',
                 ],
             ];
